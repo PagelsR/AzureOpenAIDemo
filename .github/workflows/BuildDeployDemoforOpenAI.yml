@@ -9,7 +9,7 @@ on:
   
 env:
   dotnet_version: '7.x.x'
-  Azure_Resource_GroupName: 'rg-AzureOpenAIDemo'
+  Azure_Resource_GroupName: 'rg-AzureOpenAIDemos'
   Azure_Resource_GroupLocation: 'eastus'
   CONFIGURATION: Release
   WORKING_DIRECTORY: .
