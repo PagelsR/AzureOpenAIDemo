@@ -10,7 +10,7 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
   sku: {
     name: sku
   }
-  kind: 'OpenAI'
+  //kind: 'OpenAI'
   properties: {
     customSubDomainName: 'openaidemo-rpagels'
     publicNetworkAccess: 'Enabled'
