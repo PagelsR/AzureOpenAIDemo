@@ -5,7 +5,7 @@
 param location string = resourceGroup().location
 param appName string = 'Azure OpenAI Demo'
 param createdBy string = 'Randy Pagels'
-param costCenter string = 'MS-AZR-0015P'
+param costCenter string = 'MS-AZR-RP'
 param Deployed_Environment string
 
 // Variables for Recommended abbreviations for Azure resource types
