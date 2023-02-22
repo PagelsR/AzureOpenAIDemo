@@ -3,6 +3,8 @@ param location string
 param defaultTags object
 param sku string = 'S0'
 
+// Deployment Note: Adding kind: 'OpenAI' creates error
+// The error message "UpdateKindNotAllowed"
 resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
   name: cognitiveServiceName
   location: location
@@ -10,7 +12,6 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
   sku: {
     name: sku
   }
-  kind: 'OpenAI'
   identity: {
     type:'SystemAssigned'
   }

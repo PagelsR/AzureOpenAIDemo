@@ -10,7 +10,7 @@ on:
 env:
   dotnet_version: '7.x.x'
   Azure_Resource_GroupName: 'rg-AzureOpenAIDemo'
-  Azure_Resource_GroupLocation: 'eastus2'
+  Azure_Resource_GroupLocation: 'eastus'
   CONFIGURATION: Release
   WORKING_DIRECTORY: .
   AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
