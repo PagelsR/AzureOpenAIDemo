@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.14.46.61228",
-      "templateHash": "4057399561651902434"
+      "version": "0.14.85.62628",
+      "templateHash": "18222048822499318062"
     }
   },
   "parameters": {
@@ -54,7 +54,7 @@
     },
     "kvValue_OpenAIKeyValue": {
       "type": "string",
-      "defaultValue": "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"
+      "defaultValue": "TBD"
     }
   },
   "variables": {
@@ -67,6 +67,7 @@
     "functionAppServiceName": "[format('funcplan-{0}', uniqueString(resourceGroup().id))]",
     "apiServiceName": "[format('apim-{0}', uniqueString(resourceGroup().id))]",
     "keyvaultName": "[format('kv-{0}', uniqueString(resourceGroup().id))]",
+    "cognitiveServiceName": "[format('cog-{0}', uniqueString(resourceGroup().id))]",
     "defaultTags": {
       "Env": "[parameters('Deployed_Environment')]",
       "App": "[parameters('appName')]",
@@ -98,8 +99,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.14.46.61228",
-              "templateHash": "18351153437557532336"
+              "version": "0.14.85.62628",
+              "templateHash": "2322361648483403722"
             }
           },
           "parameters": {
@@ -206,8 +207,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.14.46.61228",
-              "templateHash": "12214461978864945779"
+              "version": "0.14.85.62628",
+              "templateHash": "10757169164850945032"
             }
           },
           "parameters": {
@@ -342,7 +343,7 @@
                 },
                 "ValidationRules": {
                   "ExpectedHttpStatusCode": 200,
-                  "IgnoreHttpsStatusCode": false,
+                  "IgnoreHttpStatusCode": false,
                   "ContentValidation": null,
                   "SSLCheck": true,
                   "SSLCertRemainingLifetimeCheck": 7
@@ -405,8 +406,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.14.46.61228",
-              "templateHash": "3684918642781032082"
+              "version": "0.14.85.62628",
+              "templateHash": "6852537958242339085"
             }
           },
           "parameters": {
@@ -570,8 +571,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.14.46.61228",
-              "templateHash": "15090784727935654892"
+              "version": "0.14.85.62628",
+              "templateHash": "7384465935529696038"
             }
           },
           "parameters": {
@@ -838,8 +839,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.14.46.61228",
-              "templateHash": "6975968526172340465"
+              "version": "0.14.85.62628",
+              "templateHash": "5864250600653582693"
             }
           },
           "parameters": {
@@ -1296,6 +1297,113 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
+      "name": "[variables('cognitiveServiceName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "defaultTags": {
+            "value": "[variables('defaultTags')]"
+          },
+          "cognitiveServiceName": {
+            "value": "[variables('cognitiveServiceName')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.14.85.62628",
+              "templateHash": "8403658675173196429"
+            }
+          },
+          "parameters": {
+            "cognitiveServiceName": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "defaultTags": {
+              "type": "object"
+            },
+            "sku": {
+              "type": "string",
+              "defaultValue": "S0"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.CognitiveServices/accounts",
+              "apiVersion": "2022-12-01",
+              "name": "[parameters('cognitiveServiceName')]",
+              "location": "[parameters('location')]",
+              "tags": "[parameters('defaultTags')]",
+              "sku": {
+                "name": "[parameters('sku')]"
+              },
+              "kind": "OpenAI",
+              "properties": {
+                "customSubDomainName": "openaidemo-rpagels",
+                "publicNetworkAccess": "Enabled"
+              }
+            },
+            {
+              "type": "Microsoft.CognitiveServices/accounts/deployments",
+              "apiVersion": "2022-12-01",
+              "name": "[format('{0}/{1}', parameters('cognitiveServiceName'), 'Code-Davinci-002-TestRun')]",
+              "properties": {
+                "model": {
+                  "format": "OpenAI",
+                  "name": "code-davinci-002",
+                  "version": "1"
+                },
+                "scaleSettings": {
+                  "scaleType": "Standard"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServiceName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.CognitiveServices/accounts/deployments",
+              "apiVersion": "2022-12-01",
+              "name": "[format('{0}/{1}', parameters('cognitiveServiceName'), 'Text-Davinci-003-TestRun')]",
+              "properties": {
+                "model": {
+                  "format": "OpenAI",
+                  "name": "text-davinci-003",
+                  "version": "1"
+                },
+                "scaleSettings": {
+                  "scaleType": "Standard"
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServiceName'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "out_cognitiveServiceKeyString": {
+              "type": "string",
+              "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServiceName')), '2022-12-01').key1]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
       "name": "configSettings",
       "properties": {
         "expressionEvaluationOptions": {
@@ -1364,8 +1472,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.14.46.61228",
-              "templateHash": "15322017225373937179"
+              "version": "0.14.85.62628",
+              "templateHash": "4545605176132446308"
             }
           },
           "parameters": {
@@ -1561,6 +1669,8 @@
               "properties": {
                 "AzureWebJobsStorage": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', parameters('keyvaultName'), parameters('kvValue_AzureWebJobsStorageName'))]",
                 "WebsiteContentAzureFileConnectionString": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', parameters('keyvaultName'), parameters('kvValue_WebsiteContentAzureFileConnectionStringName'))]",
+                "ApimSubscriptionKey": "[format('@Microsoft.KeyVault(VaultName={0};SecretName={1})', parameters('keyvaultName'), parameters('kvValue_ApimSubscriptionKeyName'))]",
+                "ApimWebServiceURL": "[parameters('ApimWebServiceURL')]",
                 "APPINSIGHTS_INSTRUMENTATIONKEY": "[parameters('appInsightsInstrumentationKey')]",
                 "APPLICATIONINSIGHTS_CONNECTION_STRING": "[parameters('appInsightsConnectionString')]",
                 "FUNCTIONS_WORKER_RUNTIME": "dotnet",

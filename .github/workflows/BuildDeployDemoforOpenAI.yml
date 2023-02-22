@@ -25,11 +25,7 @@ jobs:
     outputs:
       output_webSiteName: ${{ steps.Infra.outputs.out_webSiteName }}
       output_keyvaultName: ${{ steps.Infra.outputs.out_keyvaultName }}
-      output_containerregistryName: ${{ steps.Infra.outputs.out_containerregistryName }}
-      output_containerAppName: ${{ steps.Infra.outputs.out_containerAppName }}
-      output_containerName: ${{ steps.Infra.outputs.out_containerName }}
-      output_containerAppEnvName: ${{ steps.Infra.outputs.out_containerAppEnvName }}
-      output_containerAppFQDN: ${{ steps.Infra.outputs.out_containerAppFQDN }}
+
 
     name: Deploy Infrastructure
     steps:
@@ -99,6 +95,7 @@ jobs:
          echo 'output_OpenAIKeyValue: ${{ steps.Infra.outputs.out_OpenAIKeyValue }}'
          echo 'output_appInsightsApplicationId: = ${{ steps.Infra.outputs.out_appInsightsApplicationId }}'
          echo 'output_appInsightsAPIApplicationId: = ${{ steps.Infra.outputs.out_appInsightsAPIApplicationId }}'
+         echo 'output_out_AzureOpenAIKeyValue: = ${{ steps.Infra.outputs.out_AzureOpenAIKeyValue }}'
 
   ################################################################
   # Stage: Deploy to Web App
@@ -131,6 +128,7 @@ jobs:
          echo 'output_OpenAIKeyValue: ${{ needs.deploy_infrastructure.outputs.output_OpenAIKeyValue }}'
          echo 'output_appInsightsApplicationId: = ${{ needs.deploy_infrastructure.outputs.output_appInsightsApplicationId }}'
          echo 'output_appInsightsAPIApplicationId: = ${{ needs.deploy_infrastructure.outputs.output_appInsightsAPIApplicationId }}'
+         echo 'output_out_AzureOpenAIKeyValue: = ${{ needs.deploy_infrastructure.outputs.output_AzureOpenAIKeyValue }}'
          
     # Unlock Resource Group
     - name: Ensure Resource Group is UnLocked
