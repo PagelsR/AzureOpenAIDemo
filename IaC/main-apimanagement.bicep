@@ -23,10 +23,10 @@ param publisherName string = 'Randy Pagels'
   'Standard'
   'Premium'
 ])
-param sku string = 'Developer'
+param sku string = 'Consumption'
 
 // Developer = 1, Consumption = 0
-param skuCount int = 1
+param skuCount int = 0
 
 ///////////////////////////////////////////
 // Create API Management Service Definition
@@ -111,14 +111,14 @@ resource apiManagementMercuryHealthAPIs 'Microsoft.ApiManagement/service/apis@20
 ///////////////////////////////////////////
 // Create Policy for API Definitions 
 ///////////////////////////////////////////
-resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
-  parent: apiManagementMercuryHealthAPIs
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API.xml')
-  }
-}
+// resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
+//   parent: apiManagementMercuryHealthAPIs
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_API.xml')
+//   }
+// }
 
 ///////////////////////////////////////////
 // Create the API for Product
