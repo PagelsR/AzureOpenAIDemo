@@ -8,8 +8,6 @@ on:
   workflow_dispatch: 
   
 env:
-  DOCKERFILEPATH: "Application/AspNetWebApp.Web"
-  
   dotnet_version: '7.x.x'
   Azure_Resource_GroupName: 'rg-AzureOpenAIDemo'
   Azure_Resource_GroupLocation: 'eastus2'

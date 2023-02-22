@@ -23,15 +23,15 @@ param publisherName string = 'Randy Pagels'
   'Standard'
   'Premium'
 ])
-param sku string = 'Developer'
+param sku string = 'Consumption'
 
 // Developer = 1, Consumption = 0
-param skuCount int = 1
+param skuCount int = 0
 
 ///////////////////////////////////////////
 // Create API Management Service Definition
 ///////////////////////////////////////////
-resource apiManagement 'Microsoft.ApiManagement/service@2021-12-01-preview' = {
+resource apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' = {
   name: apiServiceName
   location: location
   tags: defaultTags
@@ -51,7 +51,7 @@ resource apiManagement 'Microsoft.ApiManagement/service@2021-12-01-preview' = {
 ///////////////////////////////////////////
 // Create the Subscription for Developers
 ///////////////////////////////////////////
-resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscriptions@2021-12-01-preview' = {
+resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscriptions@2022-04-01-preview' = {
   parent: apiManagement
   name: 'Developers'
   properties: {
@@ -64,7 +64,7 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
 ///////////////////////////////////////////
 // Create a Product
 ///////////////////////////////////////////
-resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2021-12-01-preview' = {
+resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2022-04-01-preview' = {
   parent: apiManagement
   name: 'Development'
   properties: {
@@ -81,19 +81,19 @@ resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2021-12-
 ///////////////////////////////////////////
 // Create Policy for Product Definitions 
 ///////////////////////////////////////////
-resource apiManagementProductPolicies 'Microsoft.ApiManagement/service/products/policies@2021-12-01-preview' = {
-  parent: apiManagementProduct
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_Products.xml')
-  }
-}
+// resource apiManagementProductPolicies 'Microsoft.ApiManagement/service/products/policies@2022-04-01-preview' = {
+//   parent: apiManagementProduct
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_Products.xml')
+//   }
+// }
 
 ///////////////////////////////////////////
 // Create API Service Definition
 ///////////////////////////////////////////
-resource apiManagementMercuryHealthAPIs 'Microsoft.ApiManagement/service/apis@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' = {
   parent: apiManagement
   name: 'mercury-health'
   properties: {
@@ -111,7 +111,7 @@ resource apiManagementMercuryHealthAPIs 'Microsoft.ApiManagement/service/apis@20
 ///////////////////////////////////////////
 // Create Policy for API Definitions 
 ///////////////////////////////////////////
-resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2021-12-01-preview' = {
+resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'policy'
   properties: {
@@ -123,7 +123,7 @@ resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2021-12-01-pre
 ///////////////////////////////////////////
 // Create the API for Product
 ///////////////////////////////////////////
-resource apiManagementProductApi 'Microsoft.ApiManagement/service/products/apis@2021-12-01-preview' = {
+resource apiManagementProductApi 'Microsoft.ApiManagement/service/products/apis@2022-04-01-preview' = {
   parent: apiManagementProduct
   name: 'mercury-health'
   dependsOn: [
@@ -134,7 +134,7 @@ resource apiManagementProductApi 'Microsoft.ApiManagement/service/products/apis@
 ///////////////////////////////////////////
 // Create the API Logger for Application Insights
 ///////////////////////////////////////////
-resource appInsightsAPILogger 'Microsoft.ApiManagement/service/loggers@2021-12-01-preview' = {
+resource appInsightsAPILogger 'Microsoft.ApiManagement/service/loggers@2022-04-01-preview' = {
   parent: apiManagement
   name: appInsightsName
   properties: {
@@ -150,7 +150,7 @@ resource appInsightsAPILogger 'Microsoft.ApiManagement/service/loggers@2021-12-0
 ///////////////////////////////////////////
 // Configure logging for the API Service
 ///////////////////////////////////////////
-resource appInsightsAPIMercuryHealthdiagnostics 'Microsoft.ApiManagement/service/apis/diagnostics@2021-12-01-preview' = {
+resource appInsightsAPIMercuryHealthdiagnostics 'Microsoft.ApiManagement/service/apis/diagnostics@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'applicationinsights'
   properties: {
@@ -197,7 +197,7 @@ resource appInsightsAPIMercuryHealthdiagnostics 'Microsoft.ApiManagement/service
 ///////////////////////////////////////////
 // Create User Account for the API Service
 ///////////////////////////////////////////
-// resource apiManagementServiceName_User1 'Microsoft.ApiManagement/service/users@2021-12-01-preview' = {
+// resource apiManagementServiceName_User1 'Microsoft.ApiManagement/service/users@2022-04-01-preview' = {
 //   parent: apiManagement
 //   name: 'User1'
 //   properties: {
@@ -216,7 +216,7 @@ resource appInsightsAPIMercuryHealthdiagnostics 'Microsoft.ApiManagement/service
 ///////////////////////////////////////////
 
 // Create Operation Definitions - Access Logs
-resource apiManagementMercuryHealthAPIs_AccessLogsGETMany 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_AccessLogsGETMany 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'AccessLogsGETMany'
   properties: {
@@ -227,7 +227,7 @@ resource apiManagementMercuryHealthAPIs_AccessLogsGETMany 'Microsoft.ApiManageme
   }
 }
 // Create Operation Definitions - Access Logs
-resource apiManagementMercuryHealthAPIs_AccessLogsGETSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_AccessLogsGETSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'AccessLogsGETSingle'
   properties: {
@@ -246,7 +246,7 @@ resource apiManagementMercuryHealthAPIs_AccessLogsGETSingle 'Microsoft.ApiManage
 }
 
 // Create Operation Definitions - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsGETMany 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_NutritionsGETMany 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'NutritionsGETMany'
   properties: {
@@ -257,7 +257,7 @@ resource apiManagementMercuryHealthAPIs_NutritionsGETMany 'Microsoft.ApiManageme
   }
 }
 // Create Operation Definitions - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsGETSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_NutritionsGETSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'NutritionsGETSingle'
   properties: {
@@ -276,7 +276,7 @@ resource apiManagementMercuryHealthAPIs_NutritionsGETSingle 'Microsoft.ApiManage
 }
 
 // Create Operation Definitions - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsDELETESingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_NutritionsDELETESingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'NutritionsDELETESingle'
   properties: {
@@ -294,7 +294,7 @@ resource apiManagementMercuryHealthAPIs_NutritionsDELETESingle 'Microsoft.ApiMan
   }
 }
 // Create Operation Definitions - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsPUTSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_NutritionsPUTSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'NutritionsPUTSingle'
   properties: {
@@ -312,7 +312,7 @@ resource apiManagementMercuryHealthAPIs_NutritionsPUTSingle 'Microsoft.ApiManage
   }
 }
 // Create Operation Definitions - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsPOSTSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_NutritionsPOSTSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'NutritionsPOSTSingle'
   properties: {
@@ -324,7 +324,7 @@ resource apiManagementMercuryHealthAPIs_NutritionsPOSTSingle 'Microsoft.ApiManag
 }
 
 // Create Operation Definitions - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesGETMany 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_ExercisesGETMany 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'ExercisesGETMany'
   properties: {
@@ -335,7 +335,7 @@ resource apiManagementMercuryHealthAPIs_ExercisesGETMany 'Microsoft.ApiManagemen
   }
 }
 // Create Operation Definitions - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesGETSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_ExercisesGETSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'ExercisesGETSingle'
   properties: {
@@ -354,7 +354,7 @@ resource apiManagementMercuryHealthAPIs_ExercisesGETSingle 'Microsoft.ApiManagem
 }
 
 // Create Operation Definitions - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesDELETESingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_ExercisesDELETESingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'ExercisesDELETESingle'
   properties: {
@@ -372,7 +372,7 @@ resource apiManagementMercuryHealthAPIs_ExercisesDELETESingle 'Microsoft.ApiMana
   }
 }
 // Create Operation Definitions - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesPUTSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_ExercisesPUTSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'NExercisesPUTSingle'
   properties: {
@@ -390,7 +390,7 @@ resource apiManagementMercuryHealthAPIs_ExercisesPUTSingle 'Microsoft.ApiManagem
   }
 }
 // Create Operation Definitions - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesPOSTSingle 'Microsoft.ApiManagement/service/apis/operations@2021-12-01-preview' = {
+resource apiManagementMercuryHealthAPIs_ExercisesPOSTSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementMercuryHealthAPIs
   name: 'ExercisesPOSTSingle'
   properties: {
@@ -405,47 +405,47 @@ resource apiManagementMercuryHealthAPIs_ExercisesPOSTSingle 'Microsoft.ApiManage
 // Create Policy for Operation Definitions 
 ///////////////////////////////////////////
 
-// Apply policy GET operations - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsGETMany_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2021-12-01-preview' = {
-  parent: apiManagementMercuryHealthAPIs_NutritionsGETMany
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_NutritionsGETMany.xml')
-  }
-}
-// Apply policy GET operations - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesGETMany_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2021-12-01-preview' = {
-  parent: apiManagementMercuryHealthAPIs_ExercisesGETMany
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_ExercisesGETMany.xml')
-  }
-}
-// Apply policy for DELETE operations - Nutritions
-resource apiManagementMercuryHealthAPIs_NutritionsDELETE_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2021-12-01-preview' = {
-  parent: apiManagementMercuryHealthAPIs_NutritionsDELETESingle
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_NutritionsDELETE.xml')
-  }
-}
-// Apply policy for DELETE operations - Exercises
-resource apiManagementMercuryHealthAPIs_ExercisesDELETE_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2021-12-01-preview' = {
-  parent: apiManagementMercuryHealthAPIs_ExercisesDELETESingle
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_ExercisesDELETE.xml')
-  }
-}
+// // Apply policy GET operations - Nutritions
+// resource apiManagementMercuryHealthAPIs_NutritionsGETMany_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementMercuryHealthAPIs_NutritionsGETMany
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_NutritionsGETMany.xml')
+//   }
+// }
+// // Apply policy GET operations - Exercises
+// resource apiManagementMercuryHealthAPIs_ExercisesGETMany_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementMercuryHealthAPIs_ExercisesGETMany
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_ExercisesGETMany.xml')
+//   }
+// }
+// // Apply policy for DELETE operations - Nutritions
+// resource apiManagementMercuryHealthAPIs_NutritionsDELETE_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementMercuryHealthAPIs_NutritionsDELETESingle
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_NutritionsDELETE.xml')
+//   }
+// }
+// // Apply policy for DELETE operations - Exercises
+// resource apiManagementMercuryHealthAPIs_ExercisesDELETE_policy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementMercuryHealthAPIs_ExercisesDELETESingle
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_ExercisesDELETE.xml')
+//   }
+// }
 
 //////////////////////////////////////////////
 // Add Pet Store APIs for example
 //////////////////////////////////////////////
-resource petStoreApiExample 'Microsoft.ApiManagement/service/apis@2021-12-01-preview' = {
+resource petStoreApiExample 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' = {
   name: '${apiManagement.name}/PetStoreSwaggerImportExample'
   properties: {
     format: 'swagger-link-json'
@@ -453,37 +453,6 @@ resource petStoreApiExample 'Microsoft.ApiManagement/service/apis@2021-12-01-pre
     path: 'examplepetstore'
   }
 }
-
-//
-// Mercury Health Swagger
-//
-// @allowed([
-//   'yaml-v3' //uses 'openapi-link' format
-//   'json-v3' //uses 'openapi+json-link' format
-// ])
-// param swaggerType string = 'yaml-v3'
-
-// // This url needs to be reachable for APIM
-// param urlToSwagger string = 'https://raw.githubusercontent.com/RPagels/MercuryHealth/master/MercuryHealth.IaC/MercuryHealth.openapi.yaml'
-// //param urlToSwagger string = './MercuryHealth.IaC/MercuryHealth.openapi.yaml'
-// param apiPath string = '' // There can be only one api without path
-// param name string = 'mercury-health'
-// var format = ((swaggerType == 'yaml-v3')  ? 'openapi-link' : 'openapi+json-link')
-
-// // Create APIs from template
-// resource apiManagementMercuryHealthImport 'Microsoft.ApiManagement/service/apis@2021-12-01-preview' = {
-//   name: '${apiManagement.name}/${name}'
-//   properties: {
-//     format: format
-//     value: urlToSwagger // OR value: loadTextContent('./MercuryHealth.swagger.json')
-//     path: apiPath
-//     displayName: 'Mercury Health'
-//     serviceUrl: 'https://${webSiteName}.azurewebsites.net/'
-//   }
-// }
-//
-// Mercury Health Swagger
-//
 
 var ApimSubscriptionKeyString = apiManagementSubscription.listSecrets().primaryKey
 
