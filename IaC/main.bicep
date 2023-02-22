@@ -87,21 +87,21 @@ module functionappmod './main-funcapp.bicep' = {
 }
 
 // Create API Management
-// module apimservicemod './main-apimanagement.bicep' = {
-//   name: apiServiceName
-//     params: {
-//     location: location
-//     defaultTags: defaultTags
-//     apiServiceName: apiServiceName
-//     appInsightsName: appInsightsName
-//     applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
-//     appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
-//     webSiteName: webSiteName
-//   }
-//   dependsOn:  [
-//     appinsightsmod
-//   ]
-// }
+module apimservicemod './main-apimanagement.bicep' = {
+  name: apiServiceName
+    params: {
+    location: location
+    defaultTags: defaultTags
+    apiServiceName: apiServiceName
+    appInsightsName: appInsightsName
+    applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
+    appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
+    webSiteName: webSiteName
+  }
+  dependsOn:  [
+    appinsightsmod
+  ]
+}
 
 // module cognitiveservicemod './main-cognitiveservice.bicep' = {
 //   name: cognitiveServiceName
@@ -157,7 +157,7 @@ output out_functionAppName string = functionAppName
 output out_apiServiceName string = apiServiceName
 output out_apimSubscriptionKey string = apimservicemod.outputs.out_ApimSubscriptionKeyString
 output out_OpenAIKeyValue string = kvValue_OpenAIKeyValue
-output out_AzureOpenAIKeyValue string = cognitiveservicemod.outputs.out_cognitiveServiceKeyString
+//output out_AzureOpenAIKeyValue string = cognitiveservicemod.outputs.out_cognitiveServiceKeyString
 output out_keyvaultName string = keyvaultName
 output out_appInsightsApplicationId string = appinsightsmod.outputs.out_appInsightsApplicationId
 output out_appInsightsAPIApplicationId string = appinsightsmod.outputs.out_appInsightsAPIApplicationId
