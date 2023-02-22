@@ -19,6 +19,7 @@ var functionAppName = 'func-${uniqueString(resourceGroup().id)}'
 var functionAppServiceName = 'funcplan-${uniqueString(resourceGroup().id)}'
 var apiServiceName = 'apim-${uniqueString(resourceGroup().id)}'
 var keyvaultName = 'kv-${uniqueString(resourceGroup().id)}'
+var cognitiveServiceName = 'cog-${uniqueString(resourceGroup().id)}'
 
 // Tags
 var defaultTags = {
@@ -102,6 +103,15 @@ module apimservicemod './main-apimanagement.bicep' = {
   ]
 }
 
+module cognitiveservicemod './main-cognitiveservice.bicep' = {
+  name: cognitiveServiceName
+  params: {
+    defaultTags: defaultTags
+    cognitiveServiceName: cognitiveServiceName
+    location: location
+  }
+}
+
 //param AzObjectIdPagels string = 'b6be0700-1fda-4f88-bf20-1aa508a91f73'
 param AzObjectIdPagels string = '197b8610-80f8-4317-b9c4-06e5b3246e87'
 
@@ -147,6 +157,7 @@ output out_functionAppName string = functionAppName
 output out_apiServiceName string = apiServiceName
 output out_apimSubscriptionKey string = apimservicemod.outputs.out_ApimSubscriptionKeyString
 output out_OpenAIKeyValue string = kvValue_OpenAIKeyValue
+output out_AzureOpenAIKeyValue string = cognitiveservicemod.outputs.out_cognitiveServiceKeyString
 output out_keyvaultName string = keyvaultName
 output out_appInsightsApplicationId string = appinsightsmod.outputs.out_appInsightsApplicationId
 output out_appInsightsAPIApplicationId string = appinsightsmod.outputs.out_appInsightsAPIApplicationId
