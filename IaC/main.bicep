@@ -19,7 +19,7 @@ var functionAppName = 'func-${uniqueString(resourceGroup().id)}'
 var functionAppServiceName = 'funcplan-${uniqueString(resourceGroup().id)}'
 var apiServiceName = 'apim-${uniqueString(resourceGroup().id)}'
 var keyvaultName = 'kv-${uniqueString(resourceGroup().id)}'
-var cognitiveServiceName = 'cog-${uniqueString(resourceGroup().id)}'
+var cognitiveServiceName = 'openai-${uniqueString(resourceGroup().id)}'
 
 // Tags
 var defaultTags = {

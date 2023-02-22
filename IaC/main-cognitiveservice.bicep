@@ -21,6 +21,15 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
   }
 }
 
+// MODELS
+// GPT-3. A set of models that can understand and generate natural language
+// text-davinci-003
+// Most capable GPT-3 model. Can do any task the other models can do,
+// often with higher quality, longer output and better instruction-following.
+// Also supports inserting completions within text.
+//
+// https://platform.openai.com/docs/models/gpt-3
+//
 resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = {
   parent: cognitiveServiceOpenAI
   name: 'Code-Davinci-002-TestRun'
