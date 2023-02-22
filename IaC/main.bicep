@@ -87,30 +87,30 @@ module functionappmod './main-funcapp.bicep' = {
 }
 
 // Create API Management
-module apimservicemod './main-apimanagement.bicep' = {
-  name: apiServiceName
-    params: {
-    location: location
-    defaultTags: defaultTags
-    apiServiceName: apiServiceName
-    appInsightsName: appInsightsName
-    applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
-    appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
-    webSiteName: webSiteName
-  }
-  dependsOn:  [
-    appinsightsmod
-  ]
-}
+// module apimservicemod './main-apimanagement.bicep' = {
+//   name: apiServiceName
+//     params: {
+//     location: location
+//     defaultTags: defaultTags
+//     apiServiceName: apiServiceName
+//     appInsightsName: appInsightsName
+//     applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
+//     appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
+//     webSiteName: webSiteName
+//   }
+//   dependsOn:  [
+//     appinsightsmod
+//   ]
+// }
 
-module cognitiveservicemod './main-cognitiveservice.bicep' = {
-  name: cognitiveServiceName
-  params: {
-    defaultTags: defaultTags
-    cognitiveServiceName: cognitiveServiceName
-    location: location
-  }
-}
+// module cognitiveservicemod './main-cognitiveservice.bicep' = {
+//   name: cognitiveServiceName
+//   params: {
+//     defaultTags: defaultTags
+//     cognitiveServiceName: cognitiveServiceName
+//     location: location
+//   }
+// }
 
 //param AzObjectIdPagels string = 'b6be0700-1fda-4f88-bf20-1aa508a91f73'
 param AzObjectIdPagels string = '197b8610-80f8-4317-b9c4-06e5b3246e87'

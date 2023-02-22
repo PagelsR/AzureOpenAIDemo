@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.85.62628",
-      "templateHash": "18222048822499318062"
+      "templateHash": "503016868067298196"
     }
   },
   "parameters": {
@@ -840,7 +840,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.14.85.62628",
-              "templateHash": "5864250600653582693"
+              "templateHash": "3724090186562070283"
             }
           },
           "parameters": {
@@ -878,7 +878,7 @@
             },
             "sku": {
               "type": "string",
-              "defaultValue": "Consumption",
+              "defaultValue": "Developer",
               "allowedValues": [
                 "Consumption",
                 "Developer",
@@ -889,7 +889,7 @@
             },
             "skuCount": {
               "type": "int",
-              "defaultValue": 0
+              "defaultValue": 1
             }
           },
           "variables": {
@@ -1321,7 +1321,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.14.85.62628",
-              "templateHash": "8403658675173196429"
+              "templateHash": "3581091596344796019"
             }
           },
           "parameters": {
@@ -1349,7 +1349,6 @@
               "sku": {
                 "name": "[parameters('sku')]"
               },
-              "kind": "OpenAI",
               "properties": {
                 "customSubDomainName": "openaidemo-rpagels",
                 "publicNetworkAccess": "Enabled"
@@ -1717,6 +1716,10 @@
     "out_OpenAIKeyValue": {
       "type": "string",
       "value": "[parameters('kvValue_OpenAIKeyValue')]"
+    },
+    "out_AzureOpenAIKeyValue": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', variables('cognitiveServiceName')), '2020-10-01').outputs.out_cognitiveServiceKeyString.value]"
     },
     "out_keyvaultName": {
       "type": "string",
