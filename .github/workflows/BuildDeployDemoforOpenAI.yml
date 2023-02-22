@@ -1,4 +1,4 @@
-name: BuildDeploy ContainerApp to AppService
+name: Build Deploy Demo for OpenAI
 on:
   # push:
   #   branches:
@@ -76,8 +76,8 @@ jobs:
       continue-on-error: false
       with:
         resourceGroupName: ${{ env.Azure_Resource_GroupName }}
-        template: ./IaC/main-1.bicep
-        #parameters: ./IaC/main-1.params.json ContainerRevisionSuffix=${{ steps.vars.outputs.short_sha }}
+        template: ./IaC/main.bicep
+        parameters: ./IaC/main.params.json Deployed_Environment='Dev'
         failOnStdErr: false
 
     # Lock Resource Group
@@ -92,89 +92,20 @@ jobs:
       run: |
          echo 'output_webSiteName: ${{ steps.Infra.outputs.out_webSiteName }}'
          echo 'output_keyvaultName: ${{ steps.Infra.outputs.out_keyvaultName }}'
-         echo 'output_containerName: ${{ steps.Infra.outputs.out_containerName }}'
-         echo 'output_containerAppFQDN: ${{ steps.Infra.outputs.out_containerAppFQDN }}'
-
-  ################################################################
-  # Stage: Build Container and Push to ACR
-  ################################################################  
-  docker_build_push:
-    name: Docker Build/Push ACR
-    runs-on: ubuntu-latest
-    needs: deploy_infrastructure
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: ${{ env.dotnet_version }}
-          
-    - name: Azure authentication
-      uses: azure/login@v1
-      with:
-        creds: ${{ env.AZURE_CREDENTIALS_MCAPS }}
-
-    # Get ACR name/ACR password from Key Vault
-    - name: 'Get Key Vault values'
-      id: GetKVACRValues
-      uses: Azure/CLI@v1
-      continue-on-error: true
-      with:
-        inlineScript: |
-          az config set extension.use_dynamic_install=yes_without_prompt
-          result=$(az keyvault secret show \
-                      --name "acrusername" \
-                      --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
-                      --query "value" --output tsv)
-          echo "::set-output name=acrusername::$result"
-          result=$(az keyvault secret show \
-            --name "acrpassword" \
-            --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
-            --query "value" --output tsv)
-          echo "::set-output name=acruserpassword::$result"
-
-    # Unlock Resource Group
-    - name: Ensure Resource Group is UnLocked
-      uses: Azure/CLI@v1
-      continue-on-error: true
-      with:
-        inlineScript: |
-          az group lock delete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }}
-
-    # Build container and push to ACR
-    # or use ${{ github.sha }}
-    - name: Docker Build & Push to ACR
-      run: |
-        docker login ${{ needs.deploy_infrastructure.outputs.output_containerregistryName }}.azurecr.io --username ${{ steps.GetKVACRValues.outputs.acrusername }} --password ${{ steps.GetKVACRValues.outputs.acruserpassword }}
-        docker build "$GITHUB_WORKSPACE/${{env.DOCKERFILEPATH}}" -f  "${{env.DOCKERFILEPATH}}/Dockerfile" -t ${{ needs.deploy_infrastructure.outputs.output_containerregistryName }}.azurecr.io/${{ needs.deploy_infrastructure.outputs.output_containerName }}:v${{ github.run_number }}
-        docker push ${{ needs.deploy_infrastructure.outputs.output_containerregistryName }}.azurecr.io/${{ needs.deploy_infrastructure.outputs.output_containerName }}:v${{ github.run_number }}
-
-    # Lock Resource Group
-    - name: Ensure Resource Group is Locked
-      uses: Azure/CLI@v1
-      continue-on-error: true
-      with:
-        inlineScript: |
-          az group lock create --lock-type CanNotDelete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }} --notes 'Prevent deletion of the resource group'
-
-    # Logout of Azure and Clear the Cache
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az logout
-          az cache purge
-          az account clear
+         echo 'output_appInsightsName: ${{ steps.Infra.outputs.out_appInsightsName }}'
+         echo 'output_functionAppName: ${{ steps.Infra.outputs.out_functionAppName }}'
+         echo 'output_apiServiceName: ${{ steps.Infra.outputs.out_apiServiceName }}'
+         echo 'output_apimSubscriptionKey: ${{ steps.Infra.outputs.out_apimSubscriptionKey }}'
+         echo 'output_OpenAIKeyValue: ${{ steps.Infra.outputs.out_OpenAIKeyValue }}'
+         echo 'output_appInsightsApplicationId: = ${{ steps.Infra.outputs.out_appInsightsApplicationId }}'
+         echo 'output_appInsightsAPIApplicationId: = ${{ steps.Infra.outputs.out_appInsightsAPIApplicationId }}'
 
   ################################################################
   # Stage: Deploy to Web App
   ################################################################              
   deploy_application_to_webapp:
-    name: Deploy Image > Web App
-    needs: [docker_build_push, deploy_infrastructure]
+    name: Deploy Application
+    needs: [deploy_infrastructure]
     environment:
       name: 'Development-WebApps'
       url: 'https://${{ needs.deploy_infrastructure.outputs.output_webSiteName }}.azurewebsites.net/'
@@ -193,9 +124,14 @@ jobs:
       run: |
          echo 'output_webSiteName: ${{ needs.deploy_infrastructure.outputs.output_webSiteName }}'
          echo 'output_keyvaultName: ${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}'
-         echo 'output_containerName: ${{ needs.deploy_infrastructure.outputs.output_containerName }}'
-         echo 'output_containerAppEnvName: ${{ needs.deploy_infrastructure.outputs.output_containerAppEnvName }}'
-
+         echo 'output_appInsightsName: ${{ needs.deploy_infrastructure.outputs.output_appInsightsName }}'
+         echo 'output_functionAppName: ${{ needs.deploy_infrastructure.outputs.output_functionAppName }}'
+         echo 'output_apiServiceName: ${{ needs.deploy_infrastructure.outputs.output_apiServiceName }}'
+         echo 'output_apimSubscriptionKey: ${{ needs.deploy_infrastructure.outputs.output_apimSubscriptionKey }}'
+         echo 'output_OpenAIKeyValue: ${{ needs.deploy_infrastructure.outputs.output_OpenAIKeyValue }}'
+         echo 'output_appInsightsApplicationId: = ${{ needs.deploy_infrastructure.outputs.output_appInsightsApplicationId }}'
+         echo 'output_appInsightsAPIApplicationId: = ${{ needs.deploy_infrastructure.outputs.output_appInsightsAPIApplicationId }}'
+         
     # Unlock Resource Group
     - name: Ensure Resource Group is UnLocked
       uses: Azure/CLI@v1
@@ -204,12 +140,33 @@ jobs:
         inlineScript: |
           az group lock delete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }}
 
-    # Deploy container to Web App
-    - name: 'Deploy Container to Web App'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ needs.deploy_infrastructure.outputs.output_webSiteName }}
-        images: ${{ needs.deploy_infrastructure.outputs.output_containerregistryName }}.azurecr.io/${{ needs.deploy_infrastructure.outputs.output_containerName }}:${{ github.run_number }}
+    # - name: Download Build Artifacts-Website Application
+    #   uses: actions/download-artifact@v2
+    #   continue-on-error: false
+    #   with:
+    #     name: MercuryHealth.Website
+    #     path: ${{ github.workspace }}/MercuryHealth.Website
+
+    # - name: 'Deploy Website Application'
+    #   uses: azure/webapps-deploy@v2
+    #   with:
+    #       app-name: ${{ needs.deploy_infrastructure.outputs.output_webSiteName }}
+    #       package: './MercuryHealth.Website'
+
+    # - name: Download Build Artifacts-Function Application
+    #   uses: actions/download-artifact@v2
+    #   continue-on-error: false
+    #   with:
+    #     name: MercuryHealth.FunctionApp
+    #     path: ${{ github.workspace }}/MercuryHealth.FunctionApp
+    
+    # Deploy Function Application
+    # - name: 'Deploy Function Application'
+    #   uses: Azure/functions-action@v1
+    #   with:
+    #     app-name: ${{ needs.deploy_infrastructure.outputs.output_functionAppName }}
+    #     slot-name: 'production'
+    #     package: './MercuryHealth.FunctionApp'
 
     # Lock Resource Group
     - name: Ensure Resource Group is Locked

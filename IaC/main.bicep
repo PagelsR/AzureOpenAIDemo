@@ -148,7 +148,6 @@ output out_apiServiceName string = apiServiceName
 output out_apimSubscriptionKey string = apimservicemod.outputs.out_ApimSubscriptionKeyString
 output out_OpenAIKeyValue string = kvValue_OpenAIKeyValue
 output out_keyvaultName string = keyvaultName
-output out_secretConnectionString string = webappmod.outputs.out_secretConnectionString
 output out_appInsightsApplicationId string = appinsightsmod.outputs.out_appInsightsApplicationId
 output out_appInsightsAPIApplicationId string = appinsightsmod.outputs.out_appInsightsAPIApplicationId
 
