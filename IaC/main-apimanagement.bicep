@@ -99,7 +99,7 @@ resource apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-0
   properties: {
     displayName: 'OpenAI Team'
     description: 'A sample API that uses a OpenAI as an example to demonstrate features.'
-    serviceUrl: 'https:/api.openai.com/v1' //'https://${webSiteName}.azurewebsites.net/'
+    serviceUrl: 'https://api.openai.com/v1' //'https://${webSiteName}.azurewebsites.net/'
     path: ''
     subscriptionRequired: true
     protocols: [
