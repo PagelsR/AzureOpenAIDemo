@@ -3,13 +3,13 @@ param location string
 param defaultTags object
 param sku string = 'S0'
 
-@allowed([
-  'new'
-  'existing'
-])
-param newOrExisting string = 'existing'
+// @allowed([
+//   'new'
+//   'existing'
+// ])
+// param newOrExisting string = 'existing'
 
-resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = if (newOrExisting == 'existing') {
+resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
   name: cognitiveServiceName
   location: location
   tags: defaultTags
@@ -24,6 +24,21 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
     publicNetworkAccess: 'Enabled'
   }
 }
+// resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = if (newOrExisting == 'existing') {
+//   name: cognitiveServiceName
+//   location: location
+//   tags: defaultTags
+//   kind: 'OpenAI'
+//   sku: {
+//     name: sku
+//   }
+//   identity: {
+//     type:'SystemAssigned'
+//   }
+//   properties: {
+//     publicNetworkAccess: 'Enabled'
+//   }
+// }
 
 // MODELS
 // GPT-3. A set of models that can understand and generate natural language
@@ -34,7 +49,7 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
 //
 // https://platform.openai.com/docs/models/gpt-3
 //
-resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = if (newOrExisting == 'existing') {
+resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' =  {
   parent: cognitiveServiceOpenAI
   name: 'Code-Davinci-002-TestRun'
   properties: {
@@ -49,7 +64,7 @@ resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/ac
   }
 }
 
-resource cognitiveServiceOpenAI_Code_Davinci_003 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = if (newOrExisting == 'existing') {
+resource cognitiveServiceOpenAI_Code_Davinci_003 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' =  {
   parent: cognitiveServiceOpenAI
   name: 'Text-Davinci-003-TestRun'
   properties: {
