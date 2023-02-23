@@ -3,12 +3,15 @@
         <base />
         <set-body>@{
             JObject requestBody = new JObject();
-            requestBody["prompt"] = "A cute baby kitten";
+            requestBody["prompt"] = "A cute baby tabby kitten";
             requestBody["image"] = "https://stablobcuj5ihe655xzo.blob.core.windows.net/images/cute-tabby-kitten.png";
             requestBody["n"] = 2;
             requestBody["size"] = "1024x1024";
             return requestBody.ToString();
         }</set-body>
+        <set-header name="Content-Type" exists-action="override">
+            <value>multipart/form-data</value>
+        </set-header>
     </inbound>
     <backend>
         <base />
