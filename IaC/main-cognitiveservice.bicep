@@ -5,7 +5,13 @@ param sku string = 'S0'
 
 // Deployment Note: Adding kind: 'OpenAI' creates error
 // The error message "UpdateKindNotAllowed"
-resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
+@allowed([
+  'new'
+  'existing'
+])
+param newOrExisting string = 'existing'
+
+resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01' = if (newOrExisting == 'existing') {
   name: cognitiveServiceName
   location: location
   tags: defaultTags
@@ -31,7 +37,7 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
 //
 // https://platform.openai.com/docs/models/gpt-3
 //
-resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = {
+resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = if (newOrExisting == 'existing') {
   parent: cognitiveServiceOpenAI
   name: 'Code-Davinci-002-TestRun'
   properties: {
@@ -46,7 +52,7 @@ resource cognitiveServiceOpenAI_Code_Davinci_002 'Microsoft.CognitiveServices/ac
   }
 }
 
-resource cognitiveServiceOpenAI_Code_Davinci_003 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = {
+resource cognitiveServiceOpenAI_Code_Davinci_003 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = if (newOrExisting == 'existing') {
   parent: cognitiveServiceOpenAI
   name: 'Text-Davinci-003-TestRun'
   properties: {

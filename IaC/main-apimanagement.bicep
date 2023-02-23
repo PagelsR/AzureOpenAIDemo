@@ -23,10 +23,10 @@ param publisherName string = 'Randy Pagels'
   'Standard'
   'Premium'
 ])
-param sku string = 'Developer'
+param sku string = 'Consumption'
 
 // Developer = 1, Consumption = 0
-param skuCount int = 1
+param skuCount int = 0
 
 ///////////////////////////////////////////
 // Create API Management Service Definition
