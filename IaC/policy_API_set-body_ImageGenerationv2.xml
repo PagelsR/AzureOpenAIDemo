@@ -1,0 +1,21 @@
+<policies>
+    <inbound>
+        <base />
+        <set-body>@{
+            JObject requestBody = new JObject();
+            requestBody["prompt"] = "A cute baby kitten";
+            requestBody["n"] = "2";
+            requestBody["size"] = "1024x1024";
+            return requestBody.ToString();
+        }</set-body>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

@@ -245,14 +245,14 @@ resource apiManagementOpenAIAPIs_ImageGenerationCreatePOST 'Microsoft.ApiManagem
     description: 'Creating images from scratch based on a text prompt'
   }
 }
-resource apiSetBody_ImageGenerationCreate 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs_ImageGenerationCreatePOST
-  name: 'set-body'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API_set-body_ImageGeneration.xml')
-  }
-}
+// resource apiSetBody_ImageGenerationCreate 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementOpenAIAPIs_ImageGenerationCreatePOST
+//   name: 'set-body'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_API_set-body_ImageGenerationv2.xml')
+//   }
+// }
 
 // Create Operation Definitions - Image generation
 resource apiManagementOpenAIAPIs_ImageGenerationEditsPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
