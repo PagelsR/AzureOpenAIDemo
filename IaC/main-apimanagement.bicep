@@ -248,9 +248,9 @@ resource apiSetBody_ImageGenerationCreate 'Microsoft.ApiManagement/service/apis/
 }
 
 // Create Operation Definitions - Image generation
-resource apiManagementOpenAIAPIs_ImageGenerationEditsPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+resource apiManagementOpenAIAPIs_ImageGenerationEditPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
-  name: 'ImageGenerationEditsPOST'
+  name: 'ImageGenerationEditPOST'
   properties: {
     displayName: 'Image editing'
     method: 'POST'
@@ -273,7 +273,7 @@ resource apiManagementOpenAIAPIs_ImageGenerationVariationPOST 'Microsoft.ApiMana
 // Create Operation Definitions - Completions
 resource apiManagementOpenAIAPIs_CompletionsPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
-  name: 'ImageGenerationCompletionsPOST'
+  name: 'CompletionsPOST'
   properties: {
     displayName: 'Predicted completions'
     method: 'POST'
