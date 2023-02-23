@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.85.62628",
-      "templateHash": "503016868067298196"
+      "templateHash": "8720733204421348244"
     }
   },
   "parameters": {
@@ -23,7 +23,7 @@
     },
     "costCenter": {
       "type": "string",
-      "defaultValue": "74f644d3e665"
+      "defaultValue": "MS-AZR-RP"
     },
     "Deployed_Environment": {
       "type": "string"
@@ -67,7 +67,7 @@
     "functionAppServiceName": "[format('funcplan-{0}', uniqueString(resourceGroup().id))]",
     "apiServiceName": "[format('apim-{0}', uniqueString(resourceGroup().id))]",
     "keyvaultName": "[format('kv-{0}', uniqueString(resourceGroup().id))]",
-    "cognitiveServiceName": "[format('cog-{0}', uniqueString(resourceGroup().id))]",
+    "cognitiveServiceName": "[format('openai-{0}', uniqueString(resourceGroup().id))]",
     "defaultTags": {
       "Env": "[parameters('Deployed_Environment')]",
       "App": "[parameters('appName')]",
@@ -840,7 +840,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.14.85.62628",
-              "templateHash": "3724090186562070283"
+              "templateHash": "1900114008718455725"
             }
           },
           "parameters": {
@@ -892,9 +892,6 @@
               "defaultValue": 1
             }
           },
-          "variables": {
-            "$fxv#0": "<policies>\r\n    <inbound>\r\n        <base />\r\n        <!-- <rate-limit-by-key calls=\"20\" renewal-period=\"60\" counter-key=\"@(context.Subscription?.Key ?? \"anonymous\")\" /> -->\r\n    </inbound>\r\n    <backend>\r\n        <base />\r\n    </backend>\r\n    <outbound>\r\n        <base />\r\n    </outbound>\r\n    <on-error>\r\n        <base />\r\n    </on-error>\r\n</policies>"
-          },
           "resources": [
             {
               "type": "Microsoft.ApiManagement/service",
@@ -920,7 +917,7 @@
               "name": "[format('{0}/{1}', parameters('apiServiceName'), 'Developers')]",
               "properties": {
                 "scope": "/apis",
-                "displayName": "Mercury Health Developers",
+                "displayName": "OpenAI Developers",
                 "state": "active"
               },
               "dependsOn": [
@@ -936,8 +933,8 @@
                 "state": "published",
                 "subscriptionRequired": true,
                 "subscriptionsLimit": 1,
-                "description": "Product used for Mercury Health Development Teams",
-                "displayName": "Mercury Health Developers",
+                "description": "Product used for OpenAI Development Teams",
+                "displayName": "OpenAI Developers",
                 "terms": "These are the terms of use ... .etc"
               },
               "dependsOn": [
@@ -947,11 +944,11 @@
             {
               "type": "Microsoft.ApiManagement/service/apis",
               "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}', parameters('apiServiceName'), 'mercury-health')]",
+              "name": "[format('{0}/{1}', parameters('apiServiceName'), 'openai-team')]",
               "properties": {
-                "displayName": "Mercury Health",
-                "description": "A sample API that uses a Mercury Health as an example to demonstrate features.",
-                "serviceUrl": "[format('https://{0}.azurewebsites.net/', parameters('webSiteName'))]",
+                "displayName": "OpenAI Team",
+                "description": "A sample API that uses a OpenAI as an example to demonstrate features.",
+                "serviceUrl": "https://api.openai.com/v1",
                 "path": "",
                 "subscriptionRequired": true,
                 "protocols": [
@@ -963,23 +960,11 @@
               ]
             },
             {
-              "type": "Microsoft.ApiManagement/service/apis/policies",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'policy')]",
-              "properties": {
-                "format": "rawxml",
-                "value": "[variables('$fxv#0')]"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
               "type": "Microsoft.ApiManagement/service/products/apis",
               "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'Development', 'mercury-health')]",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'Development', 'openai-team')]",
               "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]",
                 "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiServiceName'), 'Development')]"
               ]
             },
@@ -989,7 +974,7 @@
               "name": "[format('{0}/{1}', parameters('apiServiceName'), parameters('appInsightsName'))]",
               "properties": {
                 "loggerType": "applicationInsights",
-                "description": "Mercury Health Application Insights instance.",
+                "description": "OpenAI Application Insights instance.",
                 "resourceId": "[parameters('applicationInsightsID')]",
                 "credentials": {
                   "instrumentationKey": "[parameters('appInsightsInstrumentationKey')]"
@@ -1002,7 +987,7 @@
             {
               "type": "Microsoft.ApiManagement/service/apis/diagnostics",
               "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'applicationinsights')]",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'applicationinsights')]",
               "properties": {
                 "loggerId": "[resourceId('Microsoft.ApiManagement/service/loggers', parameters('apiServiceName'), parameters('appInsightsName'))]",
                 "alwaysLog": "allErrors",
@@ -1043,33 +1028,33 @@
                 }
               },
               "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]",
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]",
                 "[resourceId('Microsoft.ApiManagement/service/loggers', parameters('apiServiceName'), parameters('appInsightsName'))]"
               ]
             },
             {
               "type": "Microsoft.ApiManagement/service/apis/operations",
               "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'AccessLogsGETMany')]",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'ImageGenerationCreateGET')]",
               "properties": {
-                "displayName": "Get all Access Logs items",
+                "displayName": "Creating images",
                 "method": "GET",
-                "urlTemplate": "/api/AccessLogs",
-                "description": "A demonstration of a GET  call"
+                "urlTemplate": "/images/generations",
+                "description": "Creating images from scratch based on a text prompt"
               },
               "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]"
               ]
             },
             {
               "type": "Microsoft.ApiManagement/service/apis/operations",
               "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'AccessLogsGETSingle')]",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'ImageGenerationEditsGET')]",
               "properties": {
-                "displayName": "Get a Access Logs item",
+                "displayName": "Editing Images",
                 "method": "GET",
-                "urlTemplate": "/api/AccessLogs/{id}",
-                "description": "A demonstration of a GET single call",
+                "urlTemplate": "/images/generations/{id}",
+                "description": "Creating edits of an existing image based on a new text prompt",
                 "templateParameters": [
                   {
                     "name": "id",
@@ -1079,189 +1064,7 @@
                 ]
               },
               "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'NutritionsGETMany')]",
-              "properties": {
-                "displayName": "Get all Nutrition items",
-                "method": "GET",
-                "urlTemplate": "/api/Nutritions",
-                "description": "A demonstration of a GET call"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'NutritionsGETSingle')]",
-              "properties": {
-                "displayName": "Get a Nutrition item",
-                "method": "GET",
-                "urlTemplate": "/api/Nutritions/{id}",
-                "description": "A demonstration of a GET single call",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'NutritionsDELETESingle')]",
-              "properties": {
-                "displayName": "Delete a Nutrition item",
-                "method": "DELETE",
-                "urlTemplate": "/api/Nutritions/{id}",
-                "description": "A demonstration of a DELETE call",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'NutritionsPUTSingle')]",
-              "properties": {
-                "displayName": "Put a Nutrition item",
-                "method": "PUT",
-                "urlTemplate": "/api/Nutritions/{id}",
-                "description": "A demonstration of a PUT call",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'NutritionsPOSTSingle')]",
-              "properties": {
-                "displayName": "Post a Nutrition item",
-                "method": "POST",
-                "urlTemplate": "/api/Nutritions",
-                "description": "A demonstration of a POST call"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'ExercisesGETMany')]",
-              "properties": {
-                "displayName": "Get all Exercises items",
-                "method": "GET",
-                "urlTemplate": "/api/Exercises",
-                "description": "A demonstration of a GET a call"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'ExercisesGETSingle')]",
-              "properties": {
-                "displayName": "Get a Exercises item",
-                "method": "GET",
-                "urlTemplate": "/api/Exercises/{id}",
-                "description": "A demonstration of a GET single call",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'ExercisesDELETESingle')]",
-              "properties": {
-                "displayName": "Delete a Exercises item",
-                "method": "DELETE",
-                "urlTemplate": "/api/Exercises/{id}",
-                "description": "A demonstration of a DELETE call",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'NExercisesPUTSingle')]",
-              "properties": {
-                "displayName": "Put a Exercises item",
-                "method": "PUT",
-                "urlTemplate": "/api/Exercises/{id}",
-                "description": "A demonstration of a PUT call",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
-              ]
-            },
-            {
-              "type": "Microsoft.ApiManagement/service/apis/operations",
-              "apiVersion": "2022-04-01-preview",
-              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'mercury-health', 'ExercisesPOSTSingle')]",
-              "properties": {
-                "displayName": "Post a Exercises item",
-                "method": "POST",
-                "urlTemplate": "/api/Exercises",
-                "description": "A demonstration of a POST call"
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'mercury-health')]"
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]"
               ]
             },
             {
@@ -1293,112 +1096,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.Resources/deployments', 'appinsightsdeploy')]"
       ]
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "name": "[variables('cognitiveServiceName')]",
-      "properties": {
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "mode": "Incremental",
-        "parameters": {
-          "defaultTags": {
-            "value": "[variables('defaultTags')]"
-          },
-          "cognitiveServiceName": {
-            "value": "[variables('cognitiveServiceName')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          }
-        },
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "metadata": {
-            "_generator": {
-              "name": "bicep",
-              "version": "0.14.85.62628",
-              "templateHash": "3581091596344796019"
-            }
-          },
-          "parameters": {
-            "cognitiveServiceName": {
-              "type": "string"
-            },
-            "location": {
-              "type": "string"
-            },
-            "defaultTags": {
-              "type": "object"
-            },
-            "sku": {
-              "type": "string",
-              "defaultValue": "S0"
-            }
-          },
-          "resources": [
-            {
-              "type": "Microsoft.CognitiveServices/accounts",
-              "apiVersion": "2022-12-01",
-              "name": "[parameters('cognitiveServiceName')]",
-              "location": "[parameters('location')]",
-              "tags": "[parameters('defaultTags')]",
-              "sku": {
-                "name": "[parameters('sku')]"
-              },
-              "properties": {
-                "customSubDomainName": "openaidemo-rpagels",
-                "publicNetworkAccess": "Enabled"
-              }
-            },
-            {
-              "type": "Microsoft.CognitiveServices/accounts/deployments",
-              "apiVersion": "2022-12-01",
-              "name": "[format('{0}/{1}', parameters('cognitiveServiceName'), 'Code-Davinci-002-TestRun')]",
-              "properties": {
-                "model": {
-                  "format": "OpenAI",
-                  "name": "code-davinci-002",
-                  "version": "1"
-                },
-                "scaleSettings": {
-                  "scaleType": "Standard"
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServiceName'))]"
-              ]
-            },
-            {
-              "type": "Microsoft.CognitiveServices/accounts/deployments",
-              "apiVersion": "2022-12-01",
-              "name": "[format('{0}/{1}', parameters('cognitiveServiceName'), 'Text-Davinci-003-TestRun')]",
-              "properties": {
-                "model": {
-                  "format": "OpenAI",
-                  "name": "text-davinci-003",
-                  "version": "1"
-                },
-                "scaleSettings": {
-                  "scaleType": "Standard"
-                }
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServiceName'))]"
-              ]
-            }
-          ],
-          "outputs": {
-            "out_cognitiveServiceKeyString": {
-              "type": "string",
-              "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('cognitiveServiceName')), '2022-12-01').key1]"
-            }
-          }
-        }
-      }
     },
     {
       "type": "Microsoft.Resources/deployments",
@@ -1716,10 +1413,6 @@
     "out_OpenAIKeyValue": {
       "type": "string",
       "value": "[parameters('kvValue_OpenAIKeyValue')]"
-    },
-    "out_AzureOpenAIKeyValue": {
-      "type": "string",
-      "value": "[reference(resourceId('Microsoft.Resources/deployments', variables('cognitiveServiceName')), '2020-10-01').outputs.out_cognitiveServiceKeyString.value]"
     },
     "out_keyvaultName": {
       "type": "string",

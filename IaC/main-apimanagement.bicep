@@ -109,18 +109,6 @@ resource apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-0
 }
 
 ///////////////////////////////////////////
-// Create Policy for ALL API Definitions 
-///////////////////////////////////////////
-resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API.xml')
-  }
-}
-
-///////////////////////////////////////////
 // Create the API for Product
 ///////////////////////////////////////////
 resource apiManagementProductApi 'Microsoft.ApiManagement/service/products/apis@2022-04-01-preview' = {
