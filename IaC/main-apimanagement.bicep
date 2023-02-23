@@ -79,7 +79,7 @@ resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2022-04-
 }
 
 ///////////////////////////////////////////
-// Create Policy for API Definitions 
+// Create Policy for ALL API Definitions 
 ///////////////////////////////////////////
 resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
