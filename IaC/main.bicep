@@ -17,7 +17,7 @@ var appInsightsWorkspaceName = 'appw-${uniqueString(resourceGroup().id)}'
 var appInsightsAlertName = 'ResponseTime-${uniqueString(resourceGroup().id)}'
 var functionAppName = 'func-${uniqueString(resourceGroup().id)}'
 var functionAppServiceName = 'funcplan-${uniqueString(resourceGroup().id)}'
-var apiServiceName = 'apimv2-${uniqueString(resourceGroup().id)}'
+var apiServiceName = 'apim-${uniqueString(resourceGroup().id)}'
 var keyvaultName = 'kv-${uniqueString(resourceGroup().id)}'
 var cognitiveServiceName = 'openai-${uniqueString(resourceGroup().id)}'
 
