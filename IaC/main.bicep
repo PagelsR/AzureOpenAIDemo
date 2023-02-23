@@ -119,7 +119,7 @@ param AzObjectIdPagels string = '197b8610-80f8-4317-b9c4-06e5b3246e87'
 // Application Id of Service Principal "MercuryHealth_ServicePrincipal"
 param ADOServiceprincipalObjectId string = '61ad559f-a07a-4d8f-981b-c88e69216dd1'
 
-param kvValue_OpenAIKeyValue string = 'TBD'
+param kvValue_OpenAIKeyValue string = 'Your_API_Key_Here'
 
 // Create Configuration Entries
 module configsettingsmod './main-configsettings.bicep' = {
