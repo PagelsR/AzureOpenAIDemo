@@ -56,6 +56,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+   - name: To be Purged soft-deleted instance of APIM
+     #if: contains(github.event_name, 'push')
+     uses: Azure/CLI@v1
+     continue-on-error: true
+     with:
+       inlineScript: |
+         az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/7fcd5716-5f70-4baa-9a46-abda3869da7a/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
+
     # - name: Set short git commit SHA
     #   id: vars
     #   run: |

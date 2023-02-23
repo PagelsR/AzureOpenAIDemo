@@ -87,21 +87,21 @@ module functionappmod './main-funcapp.bicep' = {
 }
 
 // Create API Management
-// module apimservicemod './main-apimanagement.bicep' = {
-//   name: apiServiceName
-//     params: {
-//     location: location
-//     defaultTags: defaultTags
-//     apiServiceName: apiServiceName
-//     appInsightsName: appInsightsName
-//     applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
-//     appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
-//     webSiteName: webSiteName
-//   }
-//   dependsOn:  [
-//     appinsightsmod
-//   ]
-// }
+module apimservicemod './main-apimanagement.bicep' = {
+  name: apiServiceName
+    params: {
+    location: location
+    defaultTags: defaultTags
+    apiServiceName: apiServiceName
+    appInsightsName: appInsightsName
+    applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
+    appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
+    webSiteName: webSiteName
+  }
+  dependsOn:  [
+    appinsightsmod
+  ]
+}
 
 module cognitiveservicemod './main-cognitiveservice.bicep' = {
   name: cognitiveServiceName
