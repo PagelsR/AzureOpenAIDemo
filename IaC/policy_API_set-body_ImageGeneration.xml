@@ -1,12 +1,7 @@
 <policies>
     <inbound>
         <base />
-        <set-header name="Authorization" exists-action="override">
-            <value>Bearer YOUR_API_KEY</value>
-        </set-header>
-        <set-header name="Content-Type" exists-action="override">
-            <value>application/json</value>
-        </set-header>
+        <set-body>{"prompt":"A cute baby kitten","n":2,"size":"1024x1024"}</set-body>
     </inbound>
     <backend>
         <base />
