@@ -62,22 +62,37 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
   }
 }
 
-resource apiManagementNamedValues 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
-  name: 'string'
-  parent: apiManagement
-  properties: {
-    displayName: 'OpenAI_API_Key'
-    keyVault: {
-      identityClientId: keyvaultName
-      secretIdentifier: 'OpenAIKey'
-    }
-    secret: true
-    tags: [
-      'xyz'
-    ]
-    value: 'string'
-  }
-}
+// resource apiManagementNamedValues 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
+//   name: apiServiceName
+//   parent: apiManagement
+//   properties: {
+//     displayName: 'OpenAI_API_Key'
+//     keyVault: {
+//       identityClientId: keyvaultName
+//       secretIdentifier: 'OpenAIKey'
+//     }
+//     secret: true
+//     tags: [
+//       'xyz'
+//     ]
+//     value: ''
+//   }
+// }
+
+// resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
+//   name: '${keyvaultName}/${'OpenAIKey'}'
+// }
+
+// resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
+//   name: '${apiServiceName}/${'openai-api-key'}'
+//   properties: {
+//     value: reference(keyVaultSecret).secretValue
+//     secret: true
+//   }
+//   // dependsOn: [
+//   //   keyVaultSecret
+//   // ]
+// }
 
 ///////////////////////////////////////////
 // Create a Product
