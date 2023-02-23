@@ -238,12 +238,12 @@ resource apiManagementOpenAIAPIs_ImageGenerationCreatePOST 'Microsoft.ApiManagem
     description: 'Creating images from scratch based on a text prompt'
   }
 }
-resource apiSetBody_ImageGenerationCreate 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+resource apiSetBody_ImageGenerationCreatePolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs_ImageGenerationCreatePOST
   name: 'policy'
   properties: {
     format: 'rawxml'
-    value: loadTextContent('./policy_API_set-body_ImageGenerationv2.xml')
+    value: loadTextContent('./policy_API_set-body_ImageGeneration.xml')
   }
 }
 
@@ -258,6 +258,14 @@ resource apiManagementOpenAIAPIs_ImageGenerationEditPOST 'Microsoft.ApiManagemen
     description: 'Creating edits of an existing image based on a new text prompt'
   }
 }
+resource apiSetBody_ImageGenerationEditPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs_ImageGenerationEditPOST
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./policy_API_set-body_ImageGenerationEdit.xml')
+  }
+}
 // Create Operation Definitions - Image generation
 resource apiManagementOpenAIAPIs_ImageGenerationVariationPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
@@ -269,7 +277,14 @@ resource apiManagementOpenAIAPIs_ImageGenerationVariationPOST 'Microsoft.ApiMana
     description: 'Creates a variation of a given image'
   }
 }
-
+resource apiSetBody_ImageGenerationVariationPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs_ImageGenerationVariationPOST
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./policy_API_set-body_ImageGenerationEdit.xml')
+  }
+}
 // Create Operation Definitions - Completions
 resource apiManagementOpenAIAPIs_CompletionsPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs

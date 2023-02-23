@@ -1,22 +1,19 @@
 <policies>
     <inbound>
         <base />
-        <set-body template="none">{"prompt":"A cute baby kitten","n":2,"size":"1024x1024"}</set-body>
+        <set-body>@{
+            JObject requestBody = new JObject();
+            requestBody["prompt"] = "A cute baby kitten";
+            requestBody["n"] = 2;
+            requestBody["size"] = "1024x1024";
+            return requestBody.ToString();
+        }</set-body>
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
         <base />
-        <set-body template="liquid">
-            {
-            "order": {
-                "prompt": "{{body.customer.purchase.identifier}}",
-                "n":2,
-                "size":"1024x1024"
-                }
-            }
-        </set-body>
     </outbound>
     <on-error>
         <base />
