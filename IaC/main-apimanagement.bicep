@@ -6,6 +6,7 @@ param appInsightsName string
 param applicationInsightsID string
 param appInsightsInstrumentationKey string
 param webSiteName string
+param keyvaultName string
 
 param defaultTags object
 
@@ -58,6 +59,23 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
     scope: '/apis'
     displayName: 'OpenAI Developers'
     state: 'active'
+  }
+}
+
+resource apiManagementNamedValues 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
+  name: 'string'
+  parent: apiManagement
+  properties: {
+    displayName: 'OpenAI_API_Key'
+    keyVault: {
+      identityClientId: keyvaultName
+      secretIdentifier: 'OpenAIKey'
+    }
+    secret: false
+    tags: [
+      'xyz'
+    ]
+    value: 'string'
   }
 }
 
@@ -361,3 +379,4 @@ var ApimSubscriptionKeyString = apiManagementSubscription.listSecrets().primaryK
 
 output out_ApimSubscriptionKeyString string = ApimSubscriptionKeyString
 output out_ApimWebServiceURL string = apiManagement.properties.gatewayUrl
+output out_ApiManagementprincipalId string = apiManagement.identity.principalId

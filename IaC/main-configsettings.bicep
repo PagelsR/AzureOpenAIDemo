@@ -18,6 +18,9 @@ param appServiceprincipalId string
 param funcAppServiceprincipalId string
 
 @secure()
+param ApiManagementprincipalId string
+
+@secure()
 param kvValue_AzureWebJobsStorageValue string
 
 @secure()
@@ -53,6 +56,20 @@ param accessPolicies array = [
   {
     tenantId: tenant
     objectId: funcAppServiceprincipalId
+    permissions: {
+      keys: [
+        'get'
+        'list'
+      ]
+      secrets: [
+        'get'
+        'list'
+      ]
+    }
+  }
+  {
+    tenantId: tenant
+    objectId: ApiManagementprincipalId
     permissions: {
       keys: [
         'get'

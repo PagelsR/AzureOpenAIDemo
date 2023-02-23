@@ -97,6 +97,7 @@ module apimservicemod './main-apimanagement.bicep' = {
     applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
     appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
     webSiteName: webSiteName
+    keyvaultName: keyvaultName
   }
   dependsOn:  [
     appinsightsmod
@@ -129,6 +130,7 @@ module configsettingsmod './main-configsettings.bicep' = {
     webappName: webSiteName
     functionAppName: functionAppName
     funcAppServiceprincipalId: functionappmod.outputs.out_funcAppServiceprincipalId
+    ApiManagementprincipalId: apimservicemod.outputs.out_ApiManagementprincipalId
     kvValue_AzureWebJobsStorageName: kvValue_AzureWebJobsStorageName
     kvValue_AzureWebJobsStorageValue: functionappmod.outputs.out_AzureWebJobsStorage
     kvValue_WebsiteContentAzureFileConnectionStringName: kvValue_WebsiteContentAzureFileConnectionString
