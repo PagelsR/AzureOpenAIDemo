@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.14.85.62628",
-      "templateHash": "8720733204421348244"
+      "templateHash": "17060654693412264895"
     }
   },
   "parameters": {
@@ -840,7 +840,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.14.85.62628",
-              "templateHash": "1900114008718455725"
+              "templateHash": "11654324563023437287"
             }
           },
           "parameters": {
@@ -892,6 +892,9 @@
               "defaultValue": 1
             }
           },
+          "variables": {
+            "$fxv#0": "<policies>\r\n    <inbound>\r\n        <base />\r\n        <rate-limit-by-key calls=\"20\" renewal-period=\"60\" counter-key=\"@(context.Subscription?.Key ?? \"anonymous\")\" />\r\n    </inbound>\r\n    <backend>\r\n        <base />\r\n    </backend>\r\n    <outbound>\r\n        <base />\r\n    </outbound>\r\n    <on-error>\r\n        <base />\r\n    </on-error>\r\n</policies>"
+          },
           "resources": [
             {
               "type": "Microsoft.ApiManagement/service",
@@ -939,6 +942,18 @@
               },
               "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service', parameters('apiServiceName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.ApiManagement/service/apis/policies",
+              "apiVersion": "2022-04-01-preview",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'policy')]",
+              "properties": {
+                "format": "rawxml",
+                "value": "[variables('$fxv#0')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]"
               ]
             },
             {
@@ -1037,7 +1052,7 @@
               "apiVersion": "2022-04-01-preview",
               "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'ImageGenerationCreateGET')]",
               "properties": {
-                "displayName": "Creating images",
+                "displayName": "Image creating",
                 "method": "GET",
                 "urlTemplate": "/images/generations",
                 "description": "Creating images from scratch based on a text prompt"
@@ -1051,17 +1066,38 @@
               "apiVersion": "2022-04-01-preview",
               "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'ImageGenerationEditsGET')]",
               "properties": {
-                "displayName": "Editing Images",
+                "displayName": "Image editing",
                 "method": "GET",
-                "urlTemplate": "/images/generations/{id}",
-                "description": "Creating edits of an existing image based on a new text prompt",
-                "templateParameters": [
-                  {
-                    "name": "id",
-                    "required": true,
-                    "type": "string"
-                  }
-                ]
+                "urlTemplate": "/images/edits",
+                "description": "Creating edits of an existing image based on a new text prompt"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]"
+              ]
+            },
+            {
+              "type": "Microsoft.ApiManagement/service/apis/operations",
+              "apiVersion": "2022-04-01-preview",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'ImageGenerationVariationGET')]",
+              "properties": {
+                "displayName": "Image variation",
+                "method": "GET",
+                "urlTemplate": "/images/variations",
+                "description": "Creates a variation of a given image"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]"
+              ]
+            },
+            {
+              "type": "Microsoft.ApiManagement/service/apis/operations",
+              "apiVersion": "2022-04-01-preview",
+              "name": "[format('{0}/{1}/{2}', parameters('apiServiceName'), 'openai-team', 'ImageGenerationCompletionsGET')]",
+              "properties": {
+                "displayName": "Predicted completions",
+                "method": "GET",
+                "urlTemplate": "/images/variations",
+                "description": "Return one or more predicted completions"
               },
               "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service/apis', parameters('apiServiceName'), 'openai-team')]"

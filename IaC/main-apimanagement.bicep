@@ -79,6 +79,18 @@ resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2022-04-
 }
 
 ///////////////////////////////////////////
+// Create Policy for API Definitions 
+///////////////////////////////////////////
+resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./policy_API.xml')
+  }
+}
+
+///////////////////////////////////////////
 // Create Policy for Product Definitions 
 ///////////////////////////////////////////
 // resource apiManagementProductPolicies 'Microsoft.ApiManagement/service/products/policies@2022-04-01-preview' = {
@@ -251,7 +263,7 @@ resource apiManagementOpenAIAPIs_CompletionsGET 'Microsoft.ApiManagement/service
   properties: {
     displayName: 'Predicted completions'
     method: 'GET'
-    urlTemplate: '/images/completions'
+    urlTemplate: '/images/variations'
     description: 'Return one or more predicted completions'
   }
 }
