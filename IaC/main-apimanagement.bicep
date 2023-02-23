@@ -89,14 +89,7 @@ resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-pre
     value: loadTextContent('./policy_API.xml')
   }
 }
-resource apiSetHeader 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs
-  name: 'set-header'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API_set-header.xml')
-  }
-}
+
 // resource apiContentType 'Microsoft.ApiManagement/service/contentTypes@2022-04-01-preview' = {
 //   name: 'contentType'
 //   parent: apiManagementOpenAIAPIs
@@ -237,7 +230,7 @@ resource appInsightsAPIMercuryHealthdiagnostics 'Microsoft.ApiManagement/service
 // Create Operation Definitions - Image generation
 resource apiManagementOpenAIAPIs_ImageGenerationCreatePOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
-  name: 'ImageGenerationCreateGET'
+  name: 'ImageGenerationCreatePOST'
   properties: {
     displayName: 'Image creating'
     method: 'POST'
@@ -245,14 +238,14 @@ resource apiManagementOpenAIAPIs_ImageGenerationCreatePOST 'Microsoft.ApiManagem
     description: 'Creating images from scratch based on a text prompt'
   }
 }
-// resource apiSetBody_ImageGenerationCreate 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
-//   parent: apiManagementOpenAIAPIs_ImageGenerationCreatePOST
-//   name: 'set-body'
-//   properties: {
-//     format: 'rawxml'
-//     value: loadTextContent('./policy_API_set-body_ImageGenerationv2.xml')
-//   }
-// }
+resource apiSetBody_ImageGenerationCreate 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs_ImageGenerationCreatePOST
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./policy_API_set-body_ImageGenerationv2.xml')
+  }
+}
 
 // Create Operation Definitions - Image generation
 resource apiManagementOpenAIAPIs_ImageGenerationEditsPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
@@ -263,13 +256,6 @@ resource apiManagementOpenAIAPIs_ImageGenerationEditsPOST 'Microsoft.ApiManageme
     method: 'POST'
     urlTemplate: '/images/edits'
     description: 'Creating edits of an existing image based on a new text prompt'
-    // templateParameters: [
-    //   {
-    //     name: 'id'
-    //     required: true
-    //     type: 'string'
-    //   }
-    // ]
   }
 }
 // Create Operation Definitions - Image generation
@@ -291,7 +277,7 @@ resource apiManagementOpenAIAPIs_CompletionsPOST 'Microsoft.ApiManagement/servic
   properties: {
     displayName: 'Predicted completions'
     method: 'POST'
-    urlTemplate: '/images/variations'
+    urlTemplate: '/images/completions'
     description: 'Return one or more predicted completions'
   }
 }
