@@ -3,7 +3,7 @@
         <base />
         <rate-limit-by-key calls="20" renewal-period="60" counter-key="@(context.Subscription?.Key ?? "anonymous")" />
         <set-header name="Authorization" exists-action="override">
-            <value>Bearer Key_Goes_Here</value>
+            <value>Bearer {{ openai-api-key }}</value>
         </set-header>
         <set-header name="Content-Type" exists-action="override">
             <value>application/json</value>
