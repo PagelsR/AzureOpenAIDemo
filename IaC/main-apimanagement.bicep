@@ -292,7 +292,7 @@ resource apiManagementOpenAIAPIs_CompletionsPOST 'Microsoft.ApiManagement/servic
   properties: {
     displayName: 'Predicted completions'
     method: 'POST'
-    urlTemplate: '/images/completions'
+    urlTemplate: '/completions'
     description: 'Return one or more predicted completions'
   }
 }
