@@ -155,6 +155,19 @@ module configsettingsmod './main-configsettings.bicep' = {
    ]
  }
 
+ // Add Role Assignments
+module roleAssignments './main-RoleAssignments.bicep' = {
+  name: 'addRoleAssignments'
+  params: {
+    keyvaultName: keyvaultName
+    ApiManagementprincipalId: apimservicemod.outputs.out_ApiManagementprincipalId
+  }
+  dependsOn:  [
+    keyvaultmod
+    apimservicemod
+  ]
+}
+
 // Output Params used for IaC deployment in pipeline
 output out_webSiteName string = webSiteName
 output out_appInsightsName string = appInsightsName
