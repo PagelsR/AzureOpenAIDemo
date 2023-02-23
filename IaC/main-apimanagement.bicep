@@ -204,35 +204,57 @@ resource appInsightsAPIMercuryHealthdiagnostics 'Microsoft.ApiManagement/service
 ///////////////////////////////////////////
 
 // Create Operation Definitions - Image generation
-resource apiManagementOpenAIAPIs_AccessLogsGETMany 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+resource apiManagementOpenAIAPIs_ImageGenerationCreateGET 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
   name: 'ImageGenerationCreateGET'
   properties: {
-    displayName: 'Creating images'
+    displayName: 'Image creating'
     method: 'GET'
     urlTemplate: '/images/generations'
     description: 'Creating images from scratch based on a text prompt'
   }
 }
 // Create Operation Definitions - Image generation
-resource apiManagementOpenAIAPIs_AccessLogsGETSingle 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+resource apiManagementOpenAIAPIs_ImageGenerationEditsGET 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
   name: 'ImageGenerationEditsGET'
   properties: {
-    displayName: 'Editing Images'
+    displayName: 'Image editing'
     method: 'GET'
-    urlTemplate: '/images/generations/{id}'
+    urlTemplate: '/images/edits'
     description: 'Creating edits of an existing image based on a new text prompt'
-    templateParameters: [
-      {
-        name: 'id'
-        required: true
-        type: 'string'
-      }
-    ]
+    // templateParameters: [
+    //   {
+    //     name: 'id'
+    //     required: true
+    //     type: 'string'
+    //   }
+    // ]
+  }
+}
+// Create Operation Definitions - Image generation
+resource apiManagementOpenAIAPIs_ImageGenerationVariationGET 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs
+  name: 'ImageGenerationVariationGET'
+  properties: {
+    displayName: 'Image variation'
+    method: 'GET'
+    urlTemplate: '/images/variations'
+    description: 'Creates a variation of a given image'
   }
 }
 
+// Create Operation Definitions - Completions
+resource apiManagementOpenAIAPIs_CompletionsGET 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs
+  name: 'ImageGenerationCompletionsGET'
+  properties: {
+    displayName: 'Predicted completions'
+    method: 'GET'
+    urlTemplate: '/images/completions'
+    description: 'Return one or more predicted completions'
+  }
+}
 
 ///////////////////////////////////////////
 // Create Policy for Operation Definitions 
