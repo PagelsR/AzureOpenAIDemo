@@ -1,0 +1,22 @@
+<policies>
+    <inbound>
+        <base />
+        <set-body>@{
+            JObject requestBody = new JObject();
+            requestBody["prompt"] = "Say this is a test";
+            requestBody["model"] = "text-davinci-003";
+            requestBody["max_tokens"] = 7;
+            requestBody["temperature"] = 0;
+            return requestBody.ToString();
+        }</set-body>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

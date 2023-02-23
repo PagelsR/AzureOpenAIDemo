@@ -296,7 +296,14 @@ resource apiManagementOpenAIAPIs_CompletionsPOST 'Microsoft.ApiManagement/servic
     description: 'Return one or more predicted completions'
   }
 }
-
+resource apiSetBody_CompletionsPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+  parent: apiManagementOpenAIAPIs_CompletionsPOST
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./policy_API_set-body_Completions.xml')
+  }
+}
 ///////////////////////////////////////////
 // Create Policy for Operation Definitions 
 ///////////////////////////////////////////
