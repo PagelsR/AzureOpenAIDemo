@@ -23,7 +23,6 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
     type:'SystemAssigned'
   }
   properties: {
-    //customSubDomainName: 'openaidemo-rpagels'
     publicNetworkAccess: 'Enabled'
   }
 }
