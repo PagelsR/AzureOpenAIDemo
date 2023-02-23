@@ -101,6 +101,7 @@ module apimservicemod './main-apimanagement.bicep' = {
   }
   dependsOn:  [
     appinsightsmod
+    keyvaultmod
   ]
 }
 

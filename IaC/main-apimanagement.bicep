@@ -71,7 +71,7 @@ resource apiManagementNamedValues 'Microsoft.ApiManagement/service/namedValues@2
       identityClientId: keyvaultName
       secretIdentifier: 'OpenAIKey'
     }
-    secret: false
+    secret: true
     tags: [
       'xyz'
     ]
