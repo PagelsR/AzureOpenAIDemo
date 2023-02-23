@@ -9,6 +9,7 @@ resource cognitiveServiceOpenAI 'Microsoft.CognitiveServices/accounts@2022-12-01
   name: cognitiveServiceName
   location: location
   tags: defaultTags
+  kind: 'OpenAI'
   sku: {
     name: sku
   }
