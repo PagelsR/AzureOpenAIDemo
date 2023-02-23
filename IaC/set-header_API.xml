@@ -1,0 +1,17 @@
+<policies>
+    <inbound>
+        <base />
+        <set-header name="Authorization" exists-action="append">
+            <value>TBD</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
