@@ -1,8 +1,8 @@
 name: Build Deploy Demo for OpenAI
 on:
-  # push:
-  #   branches:
-  #     - master
+  push:
+    branches:
+      - master
 
   # Allow mannually trigger 
   workflow_dispatch: 
