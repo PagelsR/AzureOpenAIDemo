@@ -3,8 +3,6 @@ param location string
 param defaultTags object
 param sku string = 'S0'
 
-// Deployment Note: Adding kind: 'OpenAI' creates error
-// The error message "UpdateKindNotAllowed"
 @allowed([
   'new'
   'existing'
