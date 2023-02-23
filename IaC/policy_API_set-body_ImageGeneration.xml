@@ -1,13 +1,22 @@
 <policies>
     <inbound>
         <base />
-        <set-body>{"prompt":"A cute baby kitten","n":2,"size":"1024x1024"}</set-body>
+        <set-body template="none">{"prompt":"A cute baby kitten","n":2,"size":"1024x1024"}</set-body>
     </inbound>
     <backend>
         <base />
     </backend>
     <outbound>
         <base />
+        <set-body template="liquid">
+            {
+            "order": {
+                "prompt": "{{body.customer.purchase.identifier}}",
+                "n":2,
+                "size":"1024x1024"
+                }
+            }
+        </set-body>
     </outbound>
     <on-error>
         <base />
