@@ -9,7 +9,7 @@ namespace AzureOpenAIDemo.Api.Controllers;
 public class OpenAIController : ControllerBase
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiKey = "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";
+    private readonly string _apiKey = "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";
     private const string _baseUrl = "https://api.openai.com/v1";
 
     public OpenAIController(HttpClient httpClient, string apiKey)
@@ -18,6 +18,7 @@ public class OpenAIController : ControllerBase
         _apiKey = apiKey;
     }
 
+    
     [HttpGet(Name = "GetCodeDavinci002")]
     public async Task<string> GetCodeDavinci002()
     {
@@ -81,7 +82,7 @@ public class OpenAIController : ControllerBase
 
     //    return completionText;
     //}
-    
+
     private async Task<dynamic> SendCompletionRequest(string modelEndpoint, dynamic requestBody)
     {
         var requestUrl = _baseUrl + modelEndpoint;
