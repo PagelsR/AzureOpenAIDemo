@@ -1,33 +1,65 @@
 using Microsoft.AspNetCore.Mvc;
-
-namespace AzureOpenAIDemo.Api.Controllers
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Text;
+namespace ChatGPTDemo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        private HttpClient _httpClient;
 
         private readonly ILogger<WeatherForecastController> _logger;
-
+        
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet(Name = "GetTextDavinci003")]
+        public async Task<string> GetTextDavinci003()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var json = JsonConvert.SerializeObject(new
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                prompt = "What is the meaning of life",
+                temperature = 0.5,
+                max_tokens = 50,
+                model = "text-davinci-003"
+            });
+            
+            _httpClient = new HttpClient();
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + "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");
+            //var response = await _httpClient.PostAsync("https://api.openai.com/v1/engines/davinci/completions", content);
+            var response = await _httpClient.PostAsync(" https://api.openai.com/v1/completions", content);
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<dynamic>(responseJson);
+            
+            return result!.choices[0].text;
         }
+
+        [HttpGet(Name = "GetCodeDavinci002")]
+        public async Task<string> GetCodeDavinci002()
+        {
+            var json = JsonConvert.SerializeObject(new
+            {
+                prompt = "What is the meaning of life",
+                temperature = 0.5,
+                max_tokens = 50,
+                model = "code-davinci-002"
+            });
+
+            _httpClient = new HttpClient();
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + "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");
+            //var response = await _httpClient.PostAsync("https://api.openai.com/v1/engines/davinci/completions", content);
+            var response = await _httpClient.PostAsync(" https://api.openai.com/v1/completions", content);
+            var responseJson = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<dynamic>(responseJson);
+
+            return result!.choices[0].text;
+        }
+
     }
 }
