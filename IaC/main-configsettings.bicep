@@ -183,6 +183,7 @@ resource webSiteAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
     APPINSIGHTS_PROFILERFEATURE_VERSION: '1.0.0'
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION: '1.0.0'
     APPLICATIONINSIGHTS_CONNECTION_STRING: appInsightsConnectionString
+    OpenAIAPIKey: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_OpenAIKeyStringName})'
     WebAppUrl: 'https://${existing_appService.name}.azurewebsites.net/'
     ASPNETCORE_ENVIRONMENT: 'Development'
     WEBSITE_ENABLE_SYNC_UPDATE_SITE: 'true'

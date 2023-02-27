@@ -91,6 +91,27 @@ jobs:
         inlineScript: |
           az group lock create --lock-type CanNotDelete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }} --notes 'Prevent deletion of the resource group'
 
+    # Get Set OpenAPIKey password in Key Vault
+    # az keyvault secret set --name <secret-name> --value <secret-value> --vault-name <key-vault-name>
+    - name: 'Create Key Vault secret for APIKEY'
+      id: GetKVACRValues
+      uses: Azure/CLI@v1
+      continue-on-error: true
+      with:
+        inlineScript: |
+          az config set extension.use_dynamic_install=yes_without_prompt
+          result=$(az keyvault secret set \
+                      --name "OpenAIAPIKey" \
+                      --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
+                      --value ${{ env.OpenAI_APIKEY }})
+
+        # echo "::set-output name=acrusername::$result"
+        # result=$(az keyvault secret show \
+        #   --name "acrpassword" \
+        #   --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
+        #   --query "value" --output tsv)
+        # echo "::set-output name=acruserpassword::$result"
+
     - name: DEBUG ONLY Display Output Variables
       run: |
          echo 'output_webSiteName: ${{ steps.Infra.outputs.out_webSiteName }}'
