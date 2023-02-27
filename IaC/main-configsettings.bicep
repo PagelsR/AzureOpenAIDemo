@@ -238,7 +238,8 @@ resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/n
 
 // Reference Existing resource
 resource existing_apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' existing = {
-  name: apiServiceName
+  name: 'openai-team' //apiServiceName
+  parent: existing_apiManagement
 }
 
 // Create API Management API Policy
