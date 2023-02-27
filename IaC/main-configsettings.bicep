@@ -233,6 +233,9 @@ resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/n
     tags: []
     secret: true
   }
+  dependsOn: [
+    secret6
+  ]
 }
 
 // Reference Existing resource for specific API

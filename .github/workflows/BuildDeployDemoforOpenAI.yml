@@ -105,13 +105,6 @@ jobs:
                       --vault-name "${{ steps.Infra.outputs.out_keyvaultName }}" \
                       --value ${{ secrets.OpenAI_APIKEY }})
 
-        # echo "::set-output name=acrusername::$result"
-        # result=$(az keyvault secret show \
-        #   --name "acrpassword" \
-        #   --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
-        #   --query "value" --output tsv)
-        # echo "::set-output name=acruserpassword::$result"
-
     - name: DEBUG ONLY Display Output Variables
       run: |
          echo 'output_webSiteName: ${{ steps.Infra.outputs.out_webSiteName }}'

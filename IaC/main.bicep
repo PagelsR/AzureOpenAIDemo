@@ -155,18 +155,19 @@ module configsettingsmod './main-configsettings.bicep' = {
    ]
  }
 
+ // NOT NEEDED! Using Key Vault Access Policies instead
  // Add Role Assignments
-module roleAssignments './main-RoleAssignments.bicep' = {
-  name: 'addRoleAssignments'
-  params: {
-    keyvaultName: keyvaultName
-    ApiManagementprincipalId: apimservicemod.outputs.out_ApiManagementprincipalId
-  }
-  dependsOn:  [
-    keyvaultmod
-    apimservicemod
-  ]
-}
+// module roleAssignments './main-RoleAssignments.bicep' = {
+//   name: 'addRoleAssignments'
+//   params: {
+//     keyvaultName: keyvaultName
+//     ApiManagementprincipalId: apimservicemod.outputs.out_ApiManagementprincipalId
+//   }
+//   dependsOn:  [
+//     keyvaultmod
+//     apimservicemod
+//   ]
+// }
 
 // Output Params used for IaC deployment in pipeline
 output out_webSiteName string = webSiteName
