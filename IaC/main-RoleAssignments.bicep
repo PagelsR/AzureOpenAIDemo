@@ -10,23 +10,6 @@ param ApiManagementprincipalId string
 param roleDefinitionIdForReader string = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
 var secretUserRole = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionIdForReader)
 
-// // Reference Existing resource
-// resource existing_ContainerApp 'Microsoft.App/containerApps@2022-10-01' existing = {
-//   name: containerAppName
-// }
-
-// // Add role assignment to Container App
-// resource roleAssignmentForContainerApp 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-//   name: guid(existing_ContainerApp.id, secretUserRole)
-//   scope: existing_ContainerApp
-//   properties: {
-//     principalId: principalId
-//     roleDefinitionId: secretUserRole
-//   }
-// }
-
-/////////////
-
 // Reference Existing resource
 resource existing_keyvault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
   name: keyvaultName

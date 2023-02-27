@@ -103,7 +103,7 @@ jobs:
           result=$(az keyvault secret set \
                       --name "OpenAIAPIKey" \
                       --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
-                      --value ${{ env.OpenAI_APIKEY }})
+                      --value ${{ secrets.OpenAI_APIKEY }})
 
         # echo "::set-output name=acrusername::$result"
         # result=$(az keyvault secret show \
