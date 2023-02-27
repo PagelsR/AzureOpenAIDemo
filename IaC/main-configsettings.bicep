@@ -104,6 +104,7 @@ param accessPolicies array = [
       keys: [
         'get'
         'list'
+        'set'
       ]
       secrets: [
         'get'

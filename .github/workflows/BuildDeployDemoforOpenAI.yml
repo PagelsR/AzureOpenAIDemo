@@ -80,7 +80,7 @@ jobs:
       with:
         resourceGroupName: ${{ env.Azure_Resource_GroupName }}
         template: ./IaC/main.bicep
-        parameters: ./IaC/main.params.json Deployed_Environment='Dev'
+        parameters: ./IaC/main.params.json Deployed_Environment='Dev' 
         failOnStdErr: false
 
     # Lock Resource Group
