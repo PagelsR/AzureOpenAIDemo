@@ -228,7 +228,7 @@ resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/n
   properties: {
     displayName: 'OpenAIAPIKey'
     keyVault: {
-      secretIdentifier: 'https://${existing_apiManagement.name}.vault.azure.net/secrets/OpenAIAPIKey'
+      secretIdentifier: 'https://${existing_keyvault.name}.vault.azure.net/secrets/OpenAIAPIKey'
     }
     tags: []
     secret: true
