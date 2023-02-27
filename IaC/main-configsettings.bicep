@@ -249,5 +249,8 @@ resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-pre
     format: 'rawxml'
     value: loadTextContent('./policy_API.xml')
   }
+  dependsOn: [
+    apiManagementNamedValuesOpenAIAPIKey
+  ]
 }
 
