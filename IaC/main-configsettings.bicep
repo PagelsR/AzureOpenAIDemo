@@ -222,6 +222,7 @@ resource funcAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
 resource existing_apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' existing = {
   name: apiServiceName
 }
+// Create API Management Named Values
 resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
   parent: existing_apiManagement
   name: 'OpenAIAPIKey'
@@ -232,6 +233,21 @@ resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/n
     }
     tags: []
     secret: true
+  }
+}
+
+// Reference Existing resource
+resource existing_apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' existing = {
+  name: apiServiceName
+}
+
+// Create API Management API Policy
+resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
+  parent: existing_apiManagementOpenAIAPIs
+  name: 'policy'
+  properties: {
+    format: 'rawxml'
+    value: loadTextContent('./policy_API.xml')
   }
 }
 

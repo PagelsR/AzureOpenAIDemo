@@ -127,14 +127,15 @@ resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2022-04-
 ///////////////////////////////////////////
 // Create Policy for ALL API Definitions 
 ///////////////////////////////////////////
-resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API.xml')
-  }
-}
+// MOVED TO main-configsettings.bicep. <<< Cart before the Horse!!!
+// resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
+//   parent: apiManagementOpenAIAPIs
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_API.xml')
+//   }
+// }
 
 // resource apiContentType 'Microsoft.ApiManagement/service/contentTypes@2022-04-01-preview' = {
 //   name: 'contentType'
