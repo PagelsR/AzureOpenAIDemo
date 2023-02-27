@@ -31,8 +31,8 @@ var defaultTags = {
 
 // KeyVault Secret Names
 param kvValue_ApimSubscriptionKeyName string = 'ApimSubscriptionKey'
-param kvValue_OpenAIKeyName string = 'OpenAIAPIKey'
-param kvValue_OpenAIKeyValue string = '<OPENAI_APIKEY>'
+param kvValue_OpenAIAPIKeyName string = 'OpenAIAPIKey'
+param kvValue_OpenAIAPIKeyValue string = '<OPENAIAPIKEY>'
 param kvValue_AzureWebJobsStorageName string = 'AzureWebJobsStorage'
 param kvValue_WebsiteContentAzureFileConnectionString string = 'WebsiteContentAzureFileConnectionString'
 
@@ -139,8 +139,8 @@ module configsettingsmod './main-configsettings.bicep' = {
     kvValue_WebsiteContentAzureFileConnectionStringName: kvValue_WebsiteContentAzureFileConnectionString
     kvValue_ApimSubscriptionKeyName: kvValue_ApimSubscriptionKeyName
     kvValue_ApimSubscriptionKeyValue: apimservicemod.outputs.out_ApimSubscriptionKeyString
-    kvValue_OpenAIKeyStringName: kvValue_OpenAIKeyName
-    kvValue_OpenAIKeyValue: kvValue_OpenAIKeyValue
+    kvValue_OpenAIAPIKeyStringName: kvValue_OpenAIAPIKeyName
+    kvValue_OpenAIAPIKeyValue: kvValue_OpenAIAPIKeyValue
     appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
     appInsightsConnectionString: appinsightsmod.outputs.out_appInsightsConnectionString
     Deployed_Environment: Deployed_Environment
@@ -174,7 +174,7 @@ output out_appInsightsName string = appInsightsName
 output out_functionAppName string = functionAppName
 output out_apiServiceName string = apiServiceName
 output out_apimSubscriptionKey string = apimservicemod.outputs.out_ApimSubscriptionKeyString
-output out_OpenAIKeyValue string = kvValue_OpenAIKeyValue
+output out_OpenAIKeyValue string = kvValue_OpenAIAPIKeyValue
 //output out_AzureOpenAIKeyValue string = cognitiveservicemod.outputs.out_cognitiveServiceKeyString
 output out_keyvaultName string = keyvaultName
 output out_appInsightsApplicationId string = appinsightsmod.outputs.out_appInsightsApplicationId

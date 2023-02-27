@@ -9,7 +9,7 @@ param appInsightsConnectionString string
 //param webhookEndpoint string
 param ApimWebServiceURL string
 param Deployed_Environment string
-param kvValue_OpenAIKeyStringName string
+param kvValue_OpenAIAPIKeyStringName string
 
 @secure()
 param appServiceprincipalId string
@@ -27,7 +27,7 @@ param kvValue_AzureWebJobsStorageValue string
 param kvValue_ApimSubscriptionKeyValue string
 
 @secure()
-param kvValue_OpenAIKeyValue string
+param kvValue_OpenAIAPIKeyValue string
 
 param tenant string = subscription().tenantId
 
@@ -158,11 +158,11 @@ resource secret5 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
 }
 // create secret for APIM
 resource secret6 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-  name: kvValue_OpenAIKeyStringName
+  name: kvValue_OpenAIAPIKeyStringName
   parent: existing_keyvault
   properties: {
     contentType: 'text/plain'
-    value: kvValue_OpenAIKeyValue
+    value: kvValue_OpenAIAPIKeyValue
   }
 }
 
@@ -183,7 +183,7 @@ resource webSiteAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
     APPINSIGHTS_PROFILERFEATURE_VERSION: '1.0.0'
     APPINSIGHTS_SNAPSHOTFEATURE_VERSION: '1.0.0'
     APPLICATIONINSIGHTS_CONNECTION_STRING: appInsightsConnectionString
-    OpenAIAPIKey: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_OpenAIKeyStringName})'
+    OpenAIAPIKey: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_OpenAIAPIKeyStringName})'
     WebAppUrl: 'https://${existing_appService.name}.azurewebsites.net/'
     ASPNETCORE_ENVIRONMENT: 'Development'
     WEBSITE_ENABLE_SYNC_UPDATE_SITE: 'true'
