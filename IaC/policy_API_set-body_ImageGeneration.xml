@@ -4,7 +4,7 @@
         <set-body>@{
             JObject requestBody = new JObject();
             requestBody["prompt"] = "A cute baby tabby kitten";
-            requestBody["n"] = 2;
+            requestBody["n"] = 1;
             requestBody["size"] = "1024x1024";
             return requestBody.ToString();
         }</set-body>

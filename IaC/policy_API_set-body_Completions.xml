@@ -3,7 +3,7 @@
         <base />
         <set-body>@{
             JObject requestBody = new JObject();
-            requestBody["prompt"] = "Say this is a test";
+            requestBody["prompt"] = "To be or not to be";
             requestBody["model"] = "text-davinci-003";
             requestBody["max_tokens"] = 7;
             requestBody["temperature"] = 0;
