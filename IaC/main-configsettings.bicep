@@ -6,7 +6,6 @@ param kvValue_ApimSubscriptionKeyName string
 param kvValue_WebsiteContentAzureFileConnectionStringName string
 param appInsightsInstrumentationKey string
 param appInsightsConnectionString string
-//param webhookEndpoint string
 param ApimWebServiceURL string
 param Deployed_Environment string
 param kvValue_OpenAIAPIKeyStringName string
@@ -222,7 +221,7 @@ resource funcAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
 resource existing_apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' existing = {
   name: apiServiceName
 }
-// Create API Management Named Values
+// Create API Management Named Value
 resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
   parent: existing_apiManagement
   name: 'OpenAIAPIKey'
@@ -236,13 +235,13 @@ resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/n
   }
 }
 
-// Reference Existing resource
+// Reference Existing resource for specific API
 resource existing_apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' existing = {
   name: 'openai-team' //apiServiceName
   parent: existing_apiManagement
 }
 
-// Create API Management API Policy
+// Create API Management API Policy for All APIs
 resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
   parent: existing_apiManagementOpenAIAPIs
   name: 'policy'

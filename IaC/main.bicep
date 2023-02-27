@@ -97,8 +97,6 @@ module apimservicemod './main-apimanagement.bicep' = {
     appInsightsName: appInsightsName
     applicationInsightsID: appinsightsmod.outputs.out_applicationInsightsID
     appInsightsInstrumentationKey: appinsightsmod.outputs.out_appInsightsInstrumentationKey
-    webSiteName: webSiteName
-    keyvaultName: keyvaultName
   }
   dependsOn:  [
     appinsightsmod

@@ -5,8 +5,6 @@ param apiServiceName string
 param appInsightsName string
 param applicationInsightsID string
 param appInsightsInstrumentationKey string
-param webSiteName string
-param keyvaultName string
 
 param defaultTags object
 
@@ -62,51 +60,6 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
   }
 }
 
-// resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
-//   name: apiServiceName
-//   parent: apiManagement
-//   properties: {
-//     displayName: 'OpenAIAPIKey'
-//     keyVault: {
-//       identityClientId: keyvaultName
-//       secretIdentifier: 'OpenAIAPIKey'
-//     }
-//     secret: true
-//     tags: [
-//       'xyz'
-//     ]
-//     value: ''
-//   }
-// }
-
-// resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
-//   parent: apiManagement
-//   name: 'openai-api-key'
-//   properties: {
-//     displayName: 'OpenAIAPIKey'
-//     keyVault: {
-//       secretIdentifier: 'https://kv-nmyfflvmgj2mw.vault.azure.net/secrets/OpenAIAPIKey'
-//     }
-//     tags: []
-//     secret: true
-//   }
-// }
-
-// resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-//   name: '${keyvaultName}/${'OpenAIKey'}'
-// }
-
-// resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
-//   name: '${apiServiceName}/${'openai-api-key'}'
-//   properties: {
-//     value: reference(keyVaultSecret).secretValue
-//     secret: true
-//   }
-//   // dependsOn: [
-//   //   keyVaultSecret
-//   // ]
-// }
-
 ///////////////////////////////////////////
 // Create a Product
 ///////////////////////////////////////////
@@ -127,7 +80,10 @@ resource apiManagementProduct 'Microsoft.ApiManagement/service/products@2022-04-
 ///////////////////////////////////////////
 // Create Policy for ALL API Definitions 
 ///////////////////////////////////////////
-// MOVED TO main-configsettings.bicep. <<< Cart before the Horse!!!
+// MOVED TO main-configsettings.bicep.
+//
+// DO NOT PUT Cart in front of Horse!!!
+//
 // resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
 //   parent: apiManagementOpenAIAPIs
 //   name: 'policy'
