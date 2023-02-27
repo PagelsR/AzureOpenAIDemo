@@ -105,7 +105,7 @@ jobs:
                       --vault-name "${{ steps.Infra.outputs.out_keyvaultName }}" \
                       --value ${{ secrets.OpenAI_APIKEY }})
 
-
+    # Refresh the secret of the named value specified
     - name: Programmatically refresh APIM named value
       uses: Azure/CLI@v1
       continue-on-error: true
