@@ -106,12 +106,12 @@ jobs:
                       --value ${{ secrets.OpenAI_APIKEY }})
 
     # Refresh the secret of the named value specified
-    - name: Programmatically refresh APIM named value
-      uses: Azure/CLI@v1
-      continue-on-error: true
-      with:
-        inlineScript: |
-          az rest --method post --uri 'https://management.azure.com/subscriptions/7fcd5716-5f70-4baa-9a46-abda3869da7a/resourceGroups/rg-AzureOpenAIDemos/providers/Microsoft.ApiManagement/service/apim-nmyfflvmgj2mw/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
+#    - name: Programmatically refresh APIM named value
+#      uses: Azure/CLI@v1
+#      continue-on-error: true
+#      with:
+#        inlineScript: |
+#          az rest --method post --uri 'https://management.azure.com/subscriptions/7fcd5716-5f70-4baa-9a46-abda3869da7a/resourceGroups/rg-AzureOpenAIDemos/providers/Microsoft.ApiManagement/service/apim-nmyfflvmgj2mw/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
 
     - name: DEBUG ONLY Display Output Variables
       run: |
