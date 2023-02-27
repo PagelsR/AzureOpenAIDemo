@@ -122,7 +122,7 @@ module apimservicemod './main-apimanagement.bicep' = {
 param AzObjectIdPagels string = '197b8610-80f8-4317-b9c4-06e5b3246e87'
 
 // Application Id of Service Principal "ServicePrincipal_FullSubscriptionAccess"
-param ADOServiceprincipalObjectId string = '7155581e-1bf2-45e7-9343-d10e93b3f1dd'
+param ADOServiceprincipalObjectId string = 'd589e43b-c408-431e-bb55-73232bab26a3'
 
 // Create Configuration Entries
 module configsettingsmod './main-configsettings.bicep' = {
