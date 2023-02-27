@@ -102,7 +102,7 @@ jobs:
           az config set extension.use_dynamic_install=yes_without_prompt
           result=$(az keyvault secret set \
                       --name "OpenAIAPIKey" \
-                      --vault-name "${{ needs.deploy_infrastructure.outputs.output_keyvaultName }}" \
+                      --vault-name "${{ steps.Infra.outputs.out_keyvaultName }}" \
                       --value ${{ secrets.OpenAI_APIKEY }})
 
         # echo "::set-output name=acrusername::$result"
