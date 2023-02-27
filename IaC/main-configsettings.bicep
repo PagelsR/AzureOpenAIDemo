@@ -10,6 +10,7 @@ param appInsightsConnectionString string
 param ApimWebServiceURL string
 param Deployed_Environment string
 param kvValue_OpenAIAPIKeyStringName string
+param apiServiceName string
 
 @secure()
 param appServiceprincipalId string
@@ -217,4 +218,19 @@ resource funcAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
   ]
 }
 
-
+// Reference Existing resource
+resource existing_apiManagement 'Microsoft.ApiManagement/service@2022-04-01-preview' existing = {
+  name: apiServiceName
+}
+resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
+  parent: existing_apiManagement
+  name: 'openai-api-key'
+  properties: {
+    displayName: 'OpenAIAPIKey'
+    keyVault: {
+      secretIdentifier: 'https://kv-nmyfflvmgj2mw.vault.azure.net/secrets/OpenAIAPIKey'
+    }
+    tags: []
+    secret: true
+  }
+}

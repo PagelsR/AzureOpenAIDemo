@@ -147,11 +147,13 @@ module configsettingsmod './main-configsettings.bicep' = {
     ApimWebServiceURL: apimservicemod.outputs.out_ApimWebServiceURL
     AzObjectIdPagels: AzObjectIdPagels
     ADOServiceprincipalObjectId: ADOServiceprincipalObjectId
+    apiServiceName: apiServiceName
     }
     dependsOn:  [
      keyvaultmod
      webappmod
      functionappmod
+     apimservicemod
    ]
  }
 
