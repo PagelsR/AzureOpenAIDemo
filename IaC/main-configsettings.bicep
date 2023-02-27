@@ -224,7 +224,7 @@ resource existing_apiManagement 'Microsoft.ApiManagement/service@2022-04-01-prev
 }
 resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
   parent: existing_apiManagement
-  name: 'openai-api-key'
+  name: 'OpenAIAPIKey'
   properties: {
     displayName: 'OpenAIAPIKey'
     keyVault: {
