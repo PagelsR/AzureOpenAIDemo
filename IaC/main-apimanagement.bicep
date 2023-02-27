@@ -62,14 +62,14 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
   }
 }
 
-// resource apiManagementNamedValues 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
+// resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
 //   name: apiServiceName
 //   parent: apiManagement
 //   properties: {
-//     displayName: 'OpenAI_API_Key'
+//     displayName: 'OpenAIAPIKey'
 //     keyVault: {
 //       identityClientId: keyvaultName
-//       secretIdentifier: 'OpenAIKey'
+//       secretIdentifier: 'OpenAIAPIKey'
 //     }
 //     secret: true
 //     tags: [
@@ -78,6 +78,19 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
 //     value: ''
 //   }
 // }
+
+resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/namedValues@2022-04-01-preview' = {
+  parent: apiManagement
+  name: 'openai-api-key'
+  properties: {
+    displayName: 'OpenAIAPIKey'
+    keyVault: {
+      secretIdentifier: 'https://kv-nmyfflvmgj2mw.vault.azure.net/secrets/OpenAIAPIKey'
+    }
+    tags: []
+    secret: true
+  }
+}
 
 // resource keyVaultSecret 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
 //   name: '${keyvaultName}/${'OpenAIKey'}'
