@@ -121,8 +121,8 @@ module apimservicemod './main-apimanagement.bicep' = {
 //param AzObjectIdPagels string = 'b6be0700-1fda-4f88-bf20-1aa508a91f73'
 param AzObjectIdPagels string = '197b8610-80f8-4317-b9c4-06e5b3246e87'
 
-// Application Id of Service Principal "MercuryHealth_ServicePrincipal"
-param ADOServiceprincipalObjectId string = '61ad559f-a07a-4d8f-981b-c88e69216dd1'
+// Application Id of Service Principal "ServicePrincipal_FullSubscriptionAccess"
+param ADOServiceprincipalObjectId string = '7155581e-1bf2-45e7-9343-d10e93b3f1dd'
 
 // Create Configuration Entries
 module configsettingsmod './main-configsettings.bicep' = {
