@@ -108,6 +108,7 @@ param accessPolicies array = [
       secrets: [
         'get'
         'list'
+        'set'
       ]
     }
   }
@@ -204,6 +205,7 @@ resource funcAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
     WebsiteContentAzureFileConnectionString: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_WebsiteContentAzureFileConnectionStringName})'
     ApimSubscriptionKey: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_ApimSubscriptionKeyName})'
     ApimWebServiceURL: ApimWebServiceURL
+    OpenAIAPIKey: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_OpenAIAPIKeyStringName})'
     APPINSIGHTS_INSTRUMENTATIONKEY: appInsightsInstrumentationKey
     APPLICATIONINSIGHTS_CONNECTION_STRING: appInsightsConnectionString
     FUNCTIONS_WORKER_RUNTIME: 'dotnet'
