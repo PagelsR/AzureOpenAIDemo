@@ -12,12 +12,8 @@ env:
   Azure_Resource_GroupName: 'rg-AzureOpenAIDemos'
   Azure_Resource_GroupLocation: 'eastus'
   CONFIGURATION: Release
-  WORKING_DIRECTORY: .
-  AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
-
   Azure_SubscriptionID: '7fcd5716-5f70-4baa-9a46-abda3869da7a'
-  apim-nmyfflvmgj2mw/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
-
+  AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
 
 jobs:
 
