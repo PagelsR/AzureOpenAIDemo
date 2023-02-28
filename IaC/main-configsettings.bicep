@@ -178,6 +178,8 @@ resource webSiteAppSettingsStrings 'Microsoft.Web/sites/config@2022-03-01' = {
   parent: existing_appService
   properties: {
     DeployedEnvironment: Deployed_Environment
+    ApimSubscriptionKey: '@Microsoft.KeyVault(VaultName=${keyvaultName};SecretName=${kvValue_ApimSubscriptionKeyName})'
+    ApimWebServiceURL: ApimWebServiceURL
     WEBSITE_RUN_FROM_PACKAGE: '1'
     WEBSITE_SENTINEL: '1'
     APPINSIGHTS_INSTRUMENTATIONKEY: appInsightsInstrumentationKey

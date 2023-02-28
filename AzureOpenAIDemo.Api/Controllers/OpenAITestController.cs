@@ -6,13 +6,14 @@ namespace AzureOpenAIDemo.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class OpenAIController : ControllerBase
+public class OpenAITestController : ControllerBase
 {
     private readonly HttpClient _httpClient;
-    private readonly string _apiKey = "";
+    //private readonly string _apiKey = "";
+    private readonly string _apiKey = Environment.GetEnvironmentVariable("OpenAIAPIKey");
     private const string _baseUrl = "https://api.openai.com/v1";
 
-    public OpenAIController(HttpClient httpClient, string apiKey)
+    public OpenAITestController(HttpClient httpClient, string apiKey)
     {
         _httpClient = httpClient;
         _apiKey = apiKey;

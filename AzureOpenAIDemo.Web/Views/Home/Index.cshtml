@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "OpenAI Example";
+}
+
+@{
+    ViewBag.Title = "OpenAI Example for ";
+}
+
+<h2>OpenAI Example for Completions</h2>
+<h5>Using model <b>text-davinci-003</b></h5>
+
+<div class="form-group">
+    <b>text-davinci-003</b> is a language model developed by OpenAI for generating natural language text. It is one of the models available in OpenAI's GPT (Generative Pre-trained Transformer) series, which uses a deep neural network architecture to generate text based on a given prompt.
+    <br />  <br />
+    <label for="prompt">Enter a prompt:</label>
+    <textarea class="form-control" id="prompt" rows="5"></textarea>
+</div>
+
+<button class="btn btn-primary" onclick="generate()">Generate</button>
+
+<div class="form-group mt-3">
+    <label for="generatedText">Generated text:</label>
+    <textarea class="form-control" id="generatedText" rows="10" readonly></textarea>
+</div>
+
+@section scripts {
+    <script>
+        function generate() {
+            var prompt = $('#prompt').val();
+
+            $.ajax({
+                url: '@Url.Action("Generate", "OpenAI")',
+                type: 'POST',
+                data: { prompt: prompt },
+                success: function (result) {
+                    if (result.success) {
+                        $('#generatedText').val(result.generatedText);
+                    } else {
+                        alert(result.errorMessage);
+                    }
+                },
+                error: function () {
+                    alert('Failed to generate text.');
+                }
+            });
+        }
+    </script>
+}
