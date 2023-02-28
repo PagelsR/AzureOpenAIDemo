@@ -66,7 +66,7 @@ jobs:
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
+          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/{{ $SUBSCRIPTION_ID }}/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
 
     # - name: Set short git commit SHA
     #   id: vars
@@ -116,7 +116,7 @@ jobs:
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method post --uri 'https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
+          az rest --method post --uri 'https://management.azure.com/subscriptions/{{ $SUBSCRIPTION_ID }}/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
 
     - name: DEBUG ONLY Display Output Variables
       run: |
