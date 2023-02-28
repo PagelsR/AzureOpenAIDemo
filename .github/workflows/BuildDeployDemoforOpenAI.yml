@@ -34,16 +34,22 @@ jobs:
       with:
         creds: ${{ env.AZURE_CREDENTIALS_MCAPS }}
 
-    - name: Get Subscription ID
-      id: get_subscription_id
-      run: echo "::set-output name=subscription_id::$(az account show --query id -o tsv)"
+    - name: Set Subscription ID
+      run: echo "SUBSCRIPTION_ID=$(az account show --query id -o tsv)" >> $GITHUB_ENV
+
+    - name: Use Subscription ID
+      run: echo "Current Subscription ID is $SUBSCRIPTION_ID"
+
+    # - name: Get Subscription ID
+    #   id: get_subscription_id
+    #   run: echo "::set-output name=subscription_id::$(az account show --query id -o tsv)"
 
     # - name: Display Subscription ID
     #   run: echo 'Current Subscription ID: ${{ steps.get_subscription_id.outputs.subscription_id }}'
 
     - name: Display Subscription ID
       run: |
-         echo 'Current Subscription ID: ${{ steps.get_subscription_id.outputs.subscription_id }}'
+         echo 'Current Subscription ID: $SUBSCRIPTION_ID'
 
     # Check if Resource Group Exists
     - name: Ensure Resource Group Exists
