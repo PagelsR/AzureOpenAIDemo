@@ -235,7 +235,7 @@ resource apiManagementOpenAIAPIs_ImageGenerationCreatePOST 'Microsoft.ApiManagem
   parent: apiManagementOpenAIAPIs
   name: 'ImageGenerationCreatePOST'
   properties: {
-    displayName: 'Image creating'
+    displayName: 'Image generation'
     method: 'POST'
     urlTemplate: '/images/generations'
     description: 'Creating images from scratch based on a text prompt'
