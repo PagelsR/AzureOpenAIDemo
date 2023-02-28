@@ -39,7 +39,7 @@ jobs:
       run: echo "::set-output name=subscription_id::$(az account show --query id -o tsv)"
 
     - name: Display Subscription ID
-      run: echo "Current Subscription ID: ${{ steps.get_subscription_id.outputs.subscription_id }}"
+      run: echo 'Current Subscription ID: ${{ steps.get_subscription_id.outputs.subscription_id }}'
 
     # Check if Resource Group Exists
     - name: Ensure Resource Group Exists
