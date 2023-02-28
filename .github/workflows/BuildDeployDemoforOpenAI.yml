@@ -77,7 +77,7 @@ jobs:
     # - name: Confirm git commit SHA output
     #   run: echo ${{ steps.vars.outputs.short_sha }}
 
-      # Deploy ARM Template using Bicep DSL
+    # Deploy ARM Template using Bicep DSL
     - name: Infrastructure Deploy
       id: Infra
       uses: azure/arm-deploy@v1
@@ -87,14 +87,6 @@ jobs:
         template: ./IaC/main.bicep
         parameters: ./IaC/main.params.json Deployed_Environment='Dev' 
         failOnStdErr: false
-
-    # Lock Resource Group
-    - name: Ensure Resource Group is Locked
-      uses: Azure/CLI@v1
-      continue-on-error: true
-      with:
-        inlineScript: |
-          az group lock create --lock-type CanNotDelete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }} --notes 'Prevent deletion of the resource group'
 
     # Update/Set OpenAPIKey password in Key Vault
     - name: 'Update Key Vault secret for OpenAI_APIKEY'
@@ -129,7 +121,23 @@ jobs:
          echo 'output_OpenAIKeyValue: ${{ steps.Infra.outputs.out_OpenAIKeyValue }}'
          echo 'output_appInsightsApplicationId: = ${{ steps.Infra.outputs.out_appInsightsApplicationId }}'
          echo 'output_appInsightsAPIApplicationId: = ${{ steps.Infra.outputs.out_appInsightsAPIApplicationId }}'
-#         echo 'output_out_AzureOpenAIKeyValue: = ${{ steps.Infra.outputs.out_AzureOpenAIKeyValue }}'
+
+    # Lock Resource Group
+    - name: Ensure Resource Group is Locked
+      uses: Azure/CLI@v1
+      continue-on-error: true
+      with:
+        inlineScript: |
+          az group lock create --lock-type CanNotDelete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }} --notes 'Prevent deletion of the resource group'
+
+    # Logout of Azure and Clear the Cache
+    - name: Logout of Azure and Clear the Cache
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az logout
+          az cache purge
+          az account clear
 
   ################################################################
   # Stage: Deploy to Web App
