@@ -12,7 +12,6 @@ env:
   Azure_Resource_GroupName: 'rg-AzureOpenAIDemos'
   Azure_Resource_GroupLocation: 'eastus'
   CONFIGURATION: Release
-  Azure_SubscriptionID: '7fcd5716-5f70-4baa-9a46-abda3869da7a'
   AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
 
 jobs:
@@ -35,6 +34,13 @@ jobs:
       with:
         creds: ${{ env.AZURE_CREDENTIALS_MCAPS }}
 
+    - name: Get Subscription ID
+      id: get_subscription_id
+      run: echo "::set-output name=subscription_id::$(az account show --query id -o tsv)"
+
+    - name: Display Subscription ID
+      run: echo "Current Subscription ID: ${{ steps.get_subscription_id.outputs.subscription_id }}"
+
     # Check if Resource Group Exists
     - name: Ensure Resource Group Exists
       uses: Azure/CLI@v1
@@ -55,13 +61,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: To be Purged soft-deleted instance of APIM
+    - name: List To-be-Purged soft-deleted instance of APIM
       #if: contains(github.event_name, 'push')
       uses: Azure/CLI@v1
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/{{ env.Azure_SubscriptionID }}/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
+          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/${{ steps.get_subscription_id.outputs.subscription_id }}/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
 
     # - name: Set short git commit SHA
     #   id: vars
@@ -91,9 +97,8 @@ jobs:
         inlineScript: |
           az group lock create --lock-type CanNotDelete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }} --notes 'Prevent deletion of the resource group'
 
-    # Get Set OpenAPIKey password in Key Vault
-    # az keyvault secret set --name <secret-name> --value <secret-value> --vault-name <key-vault-name>
-    - name: 'Set Key Vault secret for APIKEY'
+    # Update/Set OpenAPIKey password in Key Vault
+    - name: 'Update Key Vault secret for OpenAI_APIKEY'
       id: GetKVACRValues
       uses: Azure/CLI@v1
       continue-on-error: true
@@ -105,14 +110,14 @@ jobs:
                       --vault-name "${{ steps.Infra.outputs.out_keyvaultName }}" \
                       --value ${{ secrets.OpenAI_APIKEY }})
 
-    # Refresh the secret from Key Vault immediately for the named value specified
+    # Refresh the secret from Key Vault immediately for the Named Value specified
     # Otherwise, there will be a much longer delay on Azure.
     - name: Programmatically refresh APIM named value
       uses: Azure/CLI@v1
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method post --uri 'https://management.azure.com/subscriptions/{{ env.Azure_SubscriptionID }}/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
+          az rest --method post --uri 'https://management.azure.com/subscriptions/${{ steps.get_subscription_id.outputs.subscription_id }}/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
 
     - name: DEBUG ONLY Display Output Variables
       run: |
