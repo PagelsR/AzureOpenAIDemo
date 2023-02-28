@@ -19,7 +19,52 @@ public class OpenAIController : Controller
         return View();
     }
 
-    public async Task<ActionResult> Generate(string prompt)
+    public async Task<ActionResult> generateOpenAPI(string prompt)
+    {
+        try
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", OPENAPI_KEY);
+
+                var json = JsonConvert.SerializeObject(new
+                {
+                    prompt = prompt,
+                    model = "text-davinci-003",
+                    max_tokens = 100,
+                    temperature = 0.5,
+                    top_p = 1,
+                    frequency_penalty = 0,
+                    presence_penalty = 0
+                });
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                //var response = await client.PostAsync(API_URL, new StringContent(json.ToString()));
+                var response = await client.PostAsync(API_URL, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var responseObject = JObject.Parse(responseBody);
+
+                    var choices = responseObject["choices"];
+                    if (choices != null && choices.Any())
+                    {
+                        var generatedText = (string)choices[0]["text"];
+                        return Json(new { success = true, generatedText = generatedText });
+                    }
+                }
+
+                return Json(new { success = false, errorMessage = "Failed to generate text." });
+            }
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, errorMessage = ex.Message });
+        }
+    }
+
+    public async Task<ActionResult> generateAPIM(string prompt)
     {
         try
         {

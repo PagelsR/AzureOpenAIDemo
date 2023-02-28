@@ -16,7 +16,8 @@
     <textarea class="form-control" id="prompt" rows="5"></textarea>
 </div>
 
-<button class="btn btn-primary" onclick="generate()">Generate</button>
+<button class="btn btn-primary" onclick="generateOpenAPI()">Generate using OpenAPI</button>
+<button class="btn btn-primary" onclick="generateAPIM()">Generate using APIM</button>
 
 <div class="form-group mt-3">
     <label for="generatedText">Generated text:</label>
@@ -25,11 +26,30 @@
 
 @section scripts {
     <script>
-        function generate() {
+        function generateOpenAPI() {
             var prompt = $('#prompt').val();
 
             $.ajax({
-                url: '@Url.Action("Generate", "OpenAI")',
+                url: '@Url.Action("generateOpenAPI", "OpenAI")',
+                type: 'POST',
+                data: { prompt: prompt },
+                success: function (result) {
+                    if (result.success) {
+                        $('#generatedText').val(result.generatedText);
+                    } else {
+                        alert(result.errorMessage);
+                    }
+                },
+                error: function () {
+                    alert('Failed to generate text.');
+                }
+            });
+        }
+        function generateAPIM() {
+            var prompt = $('#prompt').val();
+
+            $.ajax({
+                url: '@Url.Action("generateAPIM", "OpenAI")',
                 type: 'POST',
                 data: { prompt: prompt },
                 success: function (result) {
