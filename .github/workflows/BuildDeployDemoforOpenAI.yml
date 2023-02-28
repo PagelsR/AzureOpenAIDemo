@@ -15,6 +15,10 @@ env:
   WORKING_DIRECTORY: .
   AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
 
+  Azure_SubscriptionID: '7fcd5716-5f70-4baa-9a46-abda3869da7a'
+  apim-nmyfflvmgj2mw/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
+
+
 jobs:
 
   ################################################################
@@ -61,7 +65,7 @@ jobs:
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/7fcd5716-5f70-4baa-9a46-abda3869da7a/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
+          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/{{ env.Azure_SubscriptionID }}/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
 
     # - name: Set short git commit SHA
     #   id: vars
@@ -105,13 +109,14 @@ jobs:
                       --vault-name "${{ steps.Infra.outputs.out_keyvaultName }}" \
                       --value ${{ secrets.OpenAI_APIKEY }})
 
-    # Refresh the secret of the named value specified
-#    - name: Programmatically refresh APIM named value
-#      uses: Azure/CLI@v1
-#      continue-on-error: true
-#      with:
-#        inlineScript: |
-#          az rest --method post --uri 'https://management.azure.com/subscriptions/7fcd5716-5f70-4baa-9a46-abda3869da7a/resourceGroups/rg-AzureOpenAIDemos/providers/Microsoft.ApiManagement/service/apim-nmyfflvmgj2mw/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
+    # Refresh the secret from Key Vault immediately for the named value specified
+    # Otherwise, there will be a much longer delay on Azure.
+    - name: Programmatically refresh APIM named value
+      uses: Azure/CLI@v1
+      continue-on-error: true
+      with:
+        inlineScript: |
+          az rest --method post --uri 'https://management.azure.com/subscriptions/{{ env.Azure_SubscriptionID }}/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
 
     - name: DEBUG ONLY Display Output Variables
       run: |
