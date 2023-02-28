@@ -162,15 +162,12 @@ jobs:
         with:
           dotnet-version: ${{ env.dotnet_version }}
 
-      - name: Change working directory
-        run: cd ./AzureOpenAIDemo.Web
-
       # Run dotnet build and publish
       - name: dotnet build unit test and publish
         run: |
           dotnet restore .
-          dotnet build ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
-          dotnet publish ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+          dotnet build ${{ github.workspace }}/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
+          dotnet publish ${{ github.workspace }}/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
       ###########################################
       # Upload Artifacts
