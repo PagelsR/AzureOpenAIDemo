@@ -154,13 +154,16 @@ jobs:
     steps:
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.dotnet_version }}
+
+      - name: Change working directory
+        run: cd ./AzureOpenAIDemo.Web
 
       # Run dotnet build and publish
       - name: dotnet build unit test and publish
