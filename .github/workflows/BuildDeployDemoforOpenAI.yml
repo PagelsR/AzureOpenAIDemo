@@ -163,11 +163,23 @@ jobs:
           dotnet-version: ${{ env.dotnet_version }}
 
       # Run dotnet build and publish
-      - name: dotnet build unit test and publish
-        run: |
-          dotnet restore
-          dotnet build ./AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
-          dotnet publish ./AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+      # - name: dotnet build unit test and publish
+      #   run: |
+      #     dotnet restore
+      #     dotnet build AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
+      #     dotnet publish AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+
+      - name: Restore
+        run: dotnet restore
+        working-directory: AzureOpenAIDemo
+
+      - name: Build
+        run: dotnet build AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
+        working-directory: AzureOpenAIDemo
+
+      - name: Publish
+        run: dotnet publish AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+        working-directory: AzureOpenAIDemo
 
       # - name: dotnet build unit test and publish
       #   run: |
