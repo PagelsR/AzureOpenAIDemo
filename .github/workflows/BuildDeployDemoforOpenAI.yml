@@ -37,19 +37,8 @@ jobs:
     - name: Set Subscription ID
       run: echo "SUBSCRIPTION_ID=$(az account show --query id -o tsv)" >> $GITHUB_ENV
 
-    - name: Use Subscription ID
-      run: echo "Current Subscription ID is $SUBSCRIPTION_ID"
-
-    # - name: Get Subscription ID
-    #   id: get_subscription_id
-    #   run: echo "::set-output name=subscription_id::$(az account show --query id -o tsv)"
-
-    # - name: Display Subscription ID
-    #   run: echo 'Current Subscription ID: ${{ steps.get_subscription_id.outputs.subscription_id }}'
-
     - name: Display Subscription ID
-      run: |
-         echo 'Current Subscription ID: $SUBSCRIPTION_ID'
+      run: echo "Current Subscription ID is $SUBSCRIPTION_ID"
 
     # Check if Resource Group Exists
     - name: Ensure Resource Group Exists
@@ -77,7 +66,7 @@ jobs:
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/${{ steps.get_subscription_id.outputs.subscription_id }}/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
+          az rest --method get --header "Accept=application/json" -u 'https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/providers/Microsoft.ApiManagement/deletedservices?api-version=2022-04-01-preview'
 
     # - name: Set short git commit SHA
     #   id: vars
@@ -127,7 +116,7 @@ jobs:
       continue-on-error: true
       with:
         inlineScript: |
-          az rest --method post --uri 'https://management.azure.com/subscriptions/${{ steps.get_subscription_id.outputs.subscription_id }}/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
+          az rest --method post --uri 'https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/${{ env.Azure_Resource_GroupName }}/providers/Microsoft.ApiManagement/service/${{ steps.Infra.outputs.out_apiServiceName }}/namedValues/OpenAIAPIKey/refreshSecret?api-version=2022-04-01-preview'
 
     - name: DEBUG ONLY Display Output Variables
       run: |
