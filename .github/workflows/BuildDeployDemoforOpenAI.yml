@@ -162,6 +162,12 @@ jobs:
         with:
           dotnet-version: ${{ env.dotnet_version }}
 
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+        
       # Run dotnet build and publish
       - name: dotnet build unit test and publish
         run: |
@@ -176,6 +182,8 @@ jobs:
 #           dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
 # #          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
 
       # - task: DotNetCoreCLI@2
       #   displayName: Restore
