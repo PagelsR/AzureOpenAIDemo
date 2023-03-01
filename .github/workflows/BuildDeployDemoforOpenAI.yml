@@ -169,43 +169,52 @@ jobs:
       #     dotnet build ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
       #     dotnet publish ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
-      - task: DotNetCoreCLI@2
-        displayName: Restore
-        inputs:
-          command: restore
-          projects: '**/*.csproj'
+      # - task: DotNetCoreCLI@2
+      #   displayName: Restore
+      #   inputs:
+      #     command: restore
+      #     projects: '**/*.csproj'
 
-      - task: DotNetCoreCLI@2
-        displayName: Build
-        inputs:
-          command: build
-          projects: '**/*.csproj'
-          arguments: '--configuration ${{ env.buildConfiguration }}'
+      # - task: DotNetCoreCLI@2
+      #   displayName: Build
+      #   inputs:
+      #     command: build
+      #     projects: '**/*.csproj'
+      #     arguments: '--configuration ${{ env.buildConfiguration }}'
 
-      - task: DotNetCoreCLI@2
-        displayName: Publish
-        inputs:
-          command: Publish
-          projects: '**/*.csproj'
-          arguments: '--configuration ${{ env.buildConfiguration }} -output ./web'
+      # - task: DotNetCoreCLI@2
+      #   displayName: Publish
+      #   inputs:
+      #     command: Publish
+      #     projects: '**/*.csproj'
+      #     arguments: '--configuration ${{ env.buildConfiguration }} -output ./web'
 
-      - name: Restore
-        run: dotnet restore
+
+      - name: Build and publish
+        uses: actions/dotnet@v7
+        with:
+          command: publish
+          projects: '**/*.csproj'
+          arguments: --configuration ${{ env.buildConfiguration }} --output ./web
+
+
+      # - name: Restore
+      #   run: dotnet restore
       #  working-directory: AzureOpenAIDemo
 
-      - name: Build
-        run: dotnet build AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
+      # - name: Build
+      #   run: dotnet build AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
       #  working-directory: AzureOpenAIDemo
 
-      - name: Publish
-        run: dotnet publish AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+      # - name: Publish
+      #   run: dotnet publish AzureOpenAIDemo/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
       #  working-directory: AzureOpenAIDemo
 
-      - name: dotnet build unit test and publish
-        run: |
-          dotnet restore
-          dotnet build ${{ github.workspace }}/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
-          dotnet publish ${{ github.workspace }}/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+      # - name: dotnet build unit test and publish
+      #   run: |
+      #     dotnet restore
+      #     dotnet build ${{ github.workspace }}/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
+      #     dotnet publish ${{ github.workspace }}/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
       ###########################################
       # Upload Artifacts
