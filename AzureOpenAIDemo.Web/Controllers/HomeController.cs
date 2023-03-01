@@ -78,7 +78,7 @@ public class HomeController : Controller
                     }
                 }
 
-                return Json(new { success = false, errorMessage = "Failed to generate text." });
+                return Json(new { success = false, errorMessage = "Failed to generate text. " + _configuration["OpenAIAPIKey"] + " is not a valid Key" });
             }
         }
         catch (Exception ex)
@@ -123,7 +123,7 @@ public class HomeController : Controller
                     }
                 }
 
-                return Json(new { success = false, errorMessage = "Failed to generate text." });
+                return Json(new { success = false, errorMessage = "Failed to generate text. " + _configuration["OpenAIAPIKey"] + " is not a valid Key" });
             }
         }
         catch (Exception ex)

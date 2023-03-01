@@ -9,6 +9,7 @@ param appInsightsConnectionString string
 param ApimWebServiceURL string
 param Deployed_Environment string
 param kvValue_OpenAIAPIKeyStringName string
+param kvValue_OpenAIAPIKeyValue string
 param apiServiceName string
 
 @secure()
@@ -26,8 +27,6 @@ param kvValue_AzureWebJobsStorageValue string
 @secure()
 param kvValue_ApimSubscriptionKeyValue string
 
-@secure()
-param kvValue_OpenAIAPIKeyValue string
 
 param tenant string = subscription().tenantId
 
