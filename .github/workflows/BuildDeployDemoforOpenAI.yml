@@ -173,8 +173,8 @@ jobs:
       - name: dotnet build unit test and publish
         run: |
           dotnet restore
-          dotnet build **/*.csproj --configuration ${{ env.buildConfiguration }} --no-restore
-          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+          dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.buildConfiguration }} --no-restore
+#          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
 
       # - task: DotNetCoreCLI@2
