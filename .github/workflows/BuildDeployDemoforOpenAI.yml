@@ -162,19 +162,19 @@ jobs:
         with:
           dotnet-version: ${{ env.dotnet_version }}
 
-      # # Run dotnet build and publish
-      # - name: dotnet build unit test and publish
-      #   run: |
-      #     dotnet restore
-      #     dotnet build --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
-      #     dotnet publish --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
-
       # Run dotnet build and publish
       - name: dotnet build unit test and publish
         run: |
           dotnet restore
-          dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
-#          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+          dotnet build **/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
+          dotnet publish **/AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.dotnet_buildConfiguration }} -o './web'
+
+#       # Run dotnet build and publish
+#       - name: dotnet build unit test and publish
+#         run: |
+#           dotnet restore
+#           dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
+# #          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
 
       # - task: DotNetCoreCLI@2
