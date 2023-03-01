@@ -11,7 +11,7 @@ env:
   dotnet_version: '7.x.x'
   Azure_Resource_GroupName: 'rg-AzureOpenAIDemos'
   Azure_Resource_GroupLocation: 'eastus'
-  CONFIGURATION: Release
+  dotnet_buildConfiguration: 'Release'
   AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
 
 jobs:
@@ -173,7 +173,7 @@ jobs:
       - name: dotnet build unit test and publish
         run: |
           dotnet restore
-          dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.buildConfiguration }} --no-restore
+          dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
 #          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
 
