@@ -1,5 +1,7 @@
 # Azure OpenAI Demo
 
+[![CodeQL](https://github.com/RPagels/AzureOpenAIDemo/actions/workflows/codeql.yml/badge.svg)](https://github.com/RPagels/AzureOpenAIDemo/actions/workflows/codeql.yml)
+
 # What is OpenAI?
 ## Build next-gen apps with
 OpenAI’s powerful models.
