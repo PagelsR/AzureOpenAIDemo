@@ -26,6 +26,7 @@ public class HomeController : Controller
     {
         // Save App Configuration Dynamic Configuration Settings
         ViewData["myOpenAPI_Key"] = _configuration["OpenAIAPIKey"];
+        ViewData["myApimSubscriptionKey"] = _configuration["ApimSubscriptionKey"];
 
         return View();
     }
