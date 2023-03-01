@@ -163,11 +163,11 @@ jobs:
           dotnet-version: ${{ env.dotnet_version }}
 
       # Run dotnet build and publish
-      # - name: dotnet build unit test and publish
-      #   run: |
-      #     dotnet restore
-      #     dotnet build ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
-      #     dotnet publish ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
+      - name: dotnet build unit test and publish
+        run: |
+          dotnet restore --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj
+          dotnet build --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
+          dotnet publish --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
       # - task: DotNetCoreCLI@2
       #   displayName: Restore
@@ -190,12 +190,12 @@ jobs:
       #     arguments: '--configuration ${{ env.buildConfiguration }} -output ./web'
 
 
-      - name: Build and publish
-        uses: actions/dotnet@v7
-        with:
-          command: publish
-          projects: '**/*.csproj'
-          arguments: --configuration ${{ env.buildConfiguration }} --output ./web
+      # - name: Build and publish
+      #   uses: actions/dotnet@v7
+      #   with:
+      #     command: publish
+      #     projects: '**/*.csproj'
+      #     arguments: --configuration ${{ env.buildConfiguration }} --output ./web
 
 
       # - name: Restore
