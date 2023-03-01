@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureOpenAIDemo.Api", "AzureOpenAIDemo.Api\AzureOpenAIDemo.Api.csproj", "{C84C1D59-27E6-4D39-ACED-91F64A68DD42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureOpenAIDemo.Web", "AzureOpenAIDemo.Web\AzureOpenAIDemo.Web.csproj", "{6EBA6708-B372-4E8E-B7DF-8846BBFD84DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C84C1D59-27E6-4D39-ACED-91F64A68DD42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84C1D59-27E6-4D39-ACED-91F64A68DD42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84C1D59-27E6-4D39-ACED-91F64A68DD42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84C1D59-27E6-4D39-ACED-91F64A68DD42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EBA6708-B372-4E8E-B7DF-8846BBFD84DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBA6708-B372-4E8E-B7DF-8846BBFD84DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBA6708-B372-4E8E-B7DF-8846BBFD84DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBA6708-B372-4E8E-B7DF-8846BBFD84DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A6BD0BF-C6F5-4847-8C5D-7A3D49F6D0D8}
+	EndGlobalSection
+EndGlobal
