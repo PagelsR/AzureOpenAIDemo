@@ -258,4 +258,3 @@ resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-pre
     apiManagementNamedValuesOpenAIAPIKey
   ]
 }
-

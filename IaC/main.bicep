@@ -32,7 +32,7 @@ var defaultTags = {
 // KeyVault Secret Names
 param kvValue_ApimSubscriptionKeyName string = 'ApimSubscriptionKey'
 param kvValue_OpenAIAPIKeyName string = 'OpenAIAPIKey'
-param kvValue_OpenAIAPIKeyValue string = '<OPENAIAPIKEY>'
+param kvValue_OpenAIAPIKeyValue string = '<OpenAIAPIKeyGoesHere>'
 param kvValue_AzureWebJobsStorageName string = 'AzureWebJobsStorage'
 param kvValue_WebsiteContentAzureFileConnectionString string = 'WebsiteContentAzureFileConnectionString'
 
