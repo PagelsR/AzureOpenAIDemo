@@ -165,7 +165,7 @@ jobs:
       # Run dotnet build and publish
       - name: dotnet build unit test and publish
         run: |
-          dotnet restore --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj
+          dotnet restore
           dotnet build --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} --no-restore
           dotnet publish --project ./AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.buildConfiguration }} -o './web'
 
