@@ -25,7 +25,7 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         // Save App Configuration Dynamic Configuration Settings
-        ViewData["myOpenAPI_Key"] = _configuration["OPENAPI_KEY"];
+        ViewData["myOpenAPI_Key"] = _configuration["OpenAIAPIKey"];
 
         return View();
     }
