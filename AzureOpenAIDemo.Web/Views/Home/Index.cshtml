@@ -12,6 +12,8 @@
 <div class="form-group">
     <b>text-davinci-003</b> is a language model developed by OpenAI for generating natural language text. It is one of the models available in OpenAI's GPT (Generative Pre-trained Transformer) series, which uses a deep neural network architecture to generate text based on a given prompt.
     <br />  <br />
+    <div>OpenAIKey being used: <b>@ViewData["myOpenAPI_Key"]</b></div>
+    <br />
     <label for="prompt">Enter a prompt:</label>
     <textarea class="form-control" id="prompt" rows="5"></textarea>
 </div>
@@ -30,7 +32,7 @@
             var prompt = $('#prompt').val();
 
             $.ajax({
-                url: '@Url.Action("generateOpenAPI", "OpenAI")',
+                url: '@Url.Action("generateOpenAPI", "Home")',
                 type: 'POST',
                 data: { prompt: prompt },
                 success: function (result) {
@@ -49,7 +51,7 @@
             var prompt = $('#prompt').val();
 
             $.ajax({
-                url: '@Url.Action("generateAPIM", "OpenAI")',
+                url: '@Url.Action("generateAPIM", "Home")',
                 type: 'POST',
                 data: { prompt: prompt },
                 success: function (result) {
