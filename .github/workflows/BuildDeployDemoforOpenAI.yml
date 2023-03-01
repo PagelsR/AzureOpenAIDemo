@@ -145,7 +145,7 @@ jobs:
   build_application:
     runs-on: ubuntu-latest
     name: 'Build Application'
-    needs: [deploy_infrastructure]
+#    needs: [deploy_infrastructure]
     permissions:
       contents: read
       packages: write
