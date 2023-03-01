@@ -12,21 +12,28 @@ namespace AzureOpenAIDemo.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IConfiguration _configuration;
-    private const string myOpenAPI_URL = "https://api.openai.com/v1/completions";
+    private static string? myOpenAPI_URL = "https://api.openai.com/v1/completions";
+    private static string _myOpenAPI_Key = "";
+    private static string _myApimSubscriptionKey = "";
+    private static string _myApimWebServiceURL = "";
 
-    public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+    public HomeController(IConfiguration configuration)
     {
-        _logger = logger;
         _configuration = configuration;
+
+        // Get Dynamic Configuration Settings
+        _myOpenAPI_Key = _configuration["OpenAIAPIKey"]!;
+        _myApimSubscriptionKey = _configuration["ApimSubscriptionKey"]!;
+        _myApimWebServiceURL = _configuration["ApimWebServiceURL"]!;
     }
 
     public IActionResult Index()
     {
-        // Save App Configuration Dynamic Configuration Settings
-        ViewData["myOpenAPI_Key"] = _configuration["OpenAIAPIKey"];
-        ViewData["myApimSubscriptionKey"] = _configuration["ApimSubscriptionKey"];
+        // Pass configuration settings to View
+        ViewData["myOpenAPI_Key"] = _myOpenAPI_Key;
+        ViewData["myApimSubscriptionKey"] = _myApimSubscriptionKey;
+        ViewData["myApimWebServiceURL"] = _myApimWebServiceURL;
 
         return View();
     }
@@ -48,7 +55,7 @@ public class HomeController : Controller
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OpenAIAPIKey"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _myOpenAPI_Key);
 
                 var json = JsonConvert.SerializeObject(new
                 {
@@ -78,7 +85,7 @@ public class HomeController : Controller
                     }
                 }
 
-                return Json(new { success = false, errorMessage = "Failed to generate text. " + _configuration["OpenAIAPIKey"] + " is not a valid Key" });
+                return Json(new { success = false, errorMessage = "Failed to generate text. " + _myOpenAPI_Key + " is not a valid Key" });
             }
         }
         catch (Exception ex)
@@ -93,7 +100,11 @@ public class HomeController : Controller
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OpenAIAPIKey"]);
+                // Request headers
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _myApimSubscriptionKey);
+
+                // APIM Url
+                var uri = _myApimWebServiceURL + "/completions";
 
                 var json = JsonConvert.SerializeObject(new
                 {
@@ -107,8 +118,7 @@ public class HomeController : Controller
                 });
 
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                //var response = await client.PostAsync(API_URL, new StringContent(json.ToString()));
-                var response = await client.PostAsync(myOpenAPI_URL, content);
+                var response = await client.PostAsync(uri, content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -118,12 +128,12 @@ public class HomeController : Controller
                     var choices = responseObject["choices"];
                     if (choices != null && choices.Any())
                     {
-                        var generatedText = (string)choices[0]["text"];
+                        var generatedText = (string)choices[0]!["text"]!;
                         return Json(new { success = true, generatedText = generatedText });
                     }
                 }
 
-                return Json(new { success = false, errorMessage = "Failed to generate text. " + _configuration["OpenAIAPIKey"] + " is not a valid Key" });
+                return Json(new { success = false, errorMessage = "Failed to generate text. " + _myOpenAPI_Key + " is not a valid Key" });
             }
         }
         catch (Exception ex)
@@ -133,34 +143,34 @@ public class HomeController : Controller
     }
 
     // Helper Function
-    private async Task<JObject> SendApiRequestAsync(string prompt)
-    {
-        using (var client = new HttpClient())
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OPENAPI_KEY"]);
+    //private async Task<JObject> SendApiRequestAsync(string prompt)
+    //{
+    //    using (var client = new HttpClient())
+    //    {
+    //        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", myOpenAPI_Key);
 
-            var json = JsonConvert.SerializeObject(new
-            {
-                prompt = prompt,
-                model = "text-davinci-003",
-                max_tokens = 100,
-                temperature = 0.5,
-                top_p = 1,
-                frequency_penalty = 0,
-                presence_penalty = 0
-            });
+    //        var json = JsonConvert.SerializeObject(new
+    //        {
+    //            prompt = prompt,
+    //            model = "text-davinci-003",
+    //            max_tokens = 100,
+    //            temperature = 0.5,
+    //            top_p = 1,
+    //            frequency_penalty = 0,
+    //            presence_penalty = 0
+    //        });
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(myOpenAPI_URL, content);
+    //        var content = new StringContent(json, Encoding.UTF8, "application/json");
+    //        var response = await client.PostAsync(myOpenAPI_URL, content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var responseObject = JObject.Parse(responseBody);
-                return responseObject;
-            }
+    //        if (response.IsSuccessStatusCode)
+    //        {
+    //            var responseBody = await response.Content.ReadAsStringAsync();
+    //            var responseObject = JObject.Parse(responseBody);
+    //            return responseObject;
+    //        }
 
-            throw new Exception("Failed to generate text.");
-        }
-    }
+    //        throw new Exception("Failed to generate text.");
+    //    }
+    //}
 }
