@@ -48,7 +48,7 @@ public class HomeController : Controller
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OPENAPI_KEY"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OpenAIAPIKey"]);
 
                 var json = JsonConvert.SerializeObject(new
                 {
@@ -93,7 +93,7 @@ public class HomeController : Controller
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OPENAPI_KEY"]);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _configuration["OpenAIAPIKey"]);
 
                 var json = JsonConvert.SerializeObject(new
                 {
