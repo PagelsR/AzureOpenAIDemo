@@ -1,7 +1,7 @@
 name: Build and deploy .NET Core application to Web App app-nmyfflvmgj2mw
-on:
-  push:
-    branches:
+#on:
+#  push:
+#    branches:
     - main
 env:
   AZURE_WEBAPP_NAME: app-nmyfflvmgj2mw
