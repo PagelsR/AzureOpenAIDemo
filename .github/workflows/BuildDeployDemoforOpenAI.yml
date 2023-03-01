@@ -150,10 +150,10 @@ jobs:
       contents: read
       packages: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'csharp' ]
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        language: [ 'csharp' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
         
@@ -182,15 +182,8 @@ jobs:
           dotnet build AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
           dotnet publish AzureOpenAIDemo.Web/AzureOpenAIDemo.Web.csproj --configuration ${{ env.dotnet_buildConfiguration }} -o './web'
 
-#       # Run dotnet build and publish
-#       - name: dotnet build unit test and publish
-#         run: |
-#           dotnet restore
-#           dotnet build **/AzureOpenAIDemo.Api/AzureOpenAIDemo.Api.sln --configuration ${{ env.dotnet_buildConfiguration }} --no-restore
-# #          dotnet publish **/*.csproj --configuration ${{ env.buildConfiguration }} -o './web'
-
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+#      - name: Perform CodeQL Analysis
+#        uses: github/codeql-action/analyze@v2
 
       # - task: DotNetCoreCLI@2
       #   displayName: Restore
