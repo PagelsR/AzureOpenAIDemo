@@ -183,10 +183,10 @@ jobs:
   # Stage: Deploy to Web App
   ################################################################              
   deploy_application_to_webapp:
-    name: Deploy Application
+    name: Deploy Web Application
     needs: [deploy_infrastructure, build_application]
     environment:
-      name: 'Development-WebApps'
+      name: 'Dev'
       url: 'https://${{ needs.deploy_infrastructure.outputs.output_webSiteName }}.azurewebsites.net/'
     runs-on: ubuntu-latest
 
