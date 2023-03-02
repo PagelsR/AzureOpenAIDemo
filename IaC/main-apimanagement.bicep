@@ -57,6 +57,7 @@ resource apiManagementSubscription 'Microsoft.ApiManagement/service/subscription
     scope: '/apis'
     displayName: 'OpenAI Developers'
     state: 'active'
+    allowTracing: true
   }
 }
 
