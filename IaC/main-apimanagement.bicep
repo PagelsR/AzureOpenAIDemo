@@ -252,43 +252,43 @@ resource apiSetBody_ImageGenerationCreatePolicy 'Microsoft.ApiManagement/service
 }
 
 // Create Operation Definitions - Image generation
-resource apiManagementOpenAIAPIs_ImageGenerationEditPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs
-  name: 'ImageGenerationEditPOST'
-  properties: {
-    displayName: 'Image editing'
-    method: 'POST'
-    urlTemplate: '/images/edits'
-    description: 'Creating edits of an existing image based on a new text prompt'
-  }
-}
-resource apiSetBody_ImageGenerationEditPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs_ImageGenerationEditPOST
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API_set-body_ImageGenerationEdit.xml')
-  }
-}
+// resource apiManagementOpenAIAPIs_ImageGenerationEditPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+//   parent: apiManagementOpenAIAPIs
+//   name: 'ImageGenerationEditPOST'
+//   properties: {
+//     displayName: 'Image editing'
+//     method: 'POST'
+//     urlTemplate: '/images/edits'
+//     description: 'Creating edits of an existing image based on a new text prompt'
+//   }
+// }
+// resource apiSetBody_ImageGenerationEditPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementOpenAIAPIs_ImageGenerationEditPOST
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_API_set-body_ImageGenerationEdit.xml')
+//   }
+// }
 // Create Operation Definitions - Image generation
-resource apiManagementOpenAIAPIs_ImageGenerationVariationPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs
-  name: 'ImageGenerationVariationPOST'
-  properties: {
-    displayName: 'Image variation'
-    method: 'POST'
-    urlTemplate: '/images/variations'
-    description: 'Creates a variation of a given image'
-  }
-}
-resource apiSetBody_ImageGenerationVariationPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
-  parent: apiManagementOpenAIAPIs_ImageGenerationVariationPOST
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API_set-body_ImageGenerationEdit.xml')
-  }
-}
+// resource apiManagementOpenAIAPIs_ImageGenerationVariationPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
+//   parent: apiManagementOpenAIAPIs
+//   name: 'ImageGenerationVariationPOST'
+//   properties: {
+//     displayName: 'Image variation'
+//     method: 'POST'
+//     urlTemplate: '/images/variations'
+//     description: 'Creates a variation of a given image'
+//   }
+// }
+// resource apiSetBody_ImageGenerationVariationPolicy 'Microsoft.ApiManagement/service/apis/operations/policies@2022-04-01-preview' = {
+//   parent: apiManagementOpenAIAPIs_ImageGenerationVariationPOST
+//   name: 'policy'
+//   properties: {
+//     format: 'rawxml'
+//     value: loadTextContent('./policy_API_set-body_ImageGenerationEdit.xml')
+//   }
+// }
 // Create Operation Definitions - Completions
 resource apiManagementOpenAIAPIs_CompletionsPOST 'Microsoft.ApiManagement/service/apis/operations@2022-04-01-preview' = {
   parent: apiManagementOpenAIAPIs
