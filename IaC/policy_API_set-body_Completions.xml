@@ -1,25 +1,20 @@
 <policies>
-	<inbound>
-		<base />
-		<choose>
-			<when condition="@(context.Request.Body != null)">
-				<!-- Request doesn't have a body, add a new one -->
-				<set-body>
-					@{
+    <inbound>
+        <base />
+        <!--<choose>
+            <when condition="@(context.Request.Body.As<JObject>() == null || context.Request.Body.As<JObject>().Count == 0)">
+                --><!-- Request body is empty, add a new one --><!--
+                <set-body>@{
 					JObject requestBody = new JObject();
 					requestBody["prompt"] = "What is the meaning of life?";
 					requestBody["model"] = "text-davinci-003";
 					requestBody["max_tokens"] = 100;
 					requestBody["temperature"] = 0;
 					return requestBody.ToString();
-					}
-				</set-body>
-			</when>
-			<otherwise>
-				<!-- Request has a body, don't add a new one -->
-			</otherwise>
-		</choose>
-	</inbound>
+					}</set-body>
+            </when>
+        </choose>-->
+    </inbound>
     <backend>
         <base />
     </backend>

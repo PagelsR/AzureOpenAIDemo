@@ -14,9 +14,9 @@ public class HomeController : Controller
 {
     private readonly IConfiguration _configuration;
     private static string? myOpenAPI_URL = "https://api.openai.com/v1/completions";
-    private static string _myOpenAPI_Key = "";
-    private static string _myApimSubscriptionKey = "";
-    private static string _myApimWebServiceURL = "";
+    private static string? _myOpenAPI_Key = "";
+    private static string? _myApimSubscriptionKey = "";
+    private static string? _myApimWebServiceURL = "";
 
     public HomeController(IConfiguration configuration)
     {
