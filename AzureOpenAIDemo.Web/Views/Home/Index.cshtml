@@ -20,16 +20,33 @@
     <textarea class="form-control" id="prompt" rows="5"></textarea>
 </div>
 
-<button class="btn btn-primary" onclick="generateOpenAPI()">Generate using OpenAPI</button>
-<button class="btn btn-primary" onclick="generateAPIM()">Generate using APIM</button>
+<button class="btn btn-primary" onclick="generateOpenAPI()">Generate text using OpenAPI</button>
+<button class="btn btn-primary" onclick="generateAPIM()">Generate text using APIM</button>
+<button class="btn btn-primary" onclick="generateImageOpenAPI()">Generate Image using OpenAPI</button>
+<button class="btn btn-primary" onclick="generateImageAPIM()">Generate Image using APIM</button>
 
 <div class="form-group mt-3">
     <label for="generatedText">Generated text:</label>
-    <textarea class="form-control" id="generatedText" rows="10" readonly></textarea>
+    <textarea class="form-control" id="generatedText" rows="5" readonly></textarea>
 </div>
+
+@if (ViewBag.ImageUrl != null)
+{
+    <h2>Generated Image:</h2>
+    <img id="generated-image2" src="@ViewBag.ImageUrl" alt="Generated Image">
+}
+
+<div class="form-group mt-3">
+    <label for="GenerateImageText">Generated Image:</label>
+    <img src="@ViewBag.ImageUrl" alt="Generated Image">
+</div>
+
+<div id="generated-image"></div>
+
 
 @section scripts {
     <script>
+
         function generateOpenAPI() {
             var prompt = $('#prompt').val();
 
@@ -68,5 +85,51 @@
                 }
             });
         }
+
+        function generateImageOpenAPI() {
+            var prompt = $('#prompt').val();
+
+            $.ajax({
+                url: '@Url.Action("GenerateImageOpenAI", "Home")',
+                type: 'POST',
+                data: { prompt: prompt },
+                success: function (data) {
+                    if (result.success) {
+                        //$('#GenerateImageText').val(result.generatedText);
+                        $('#generated-image').html('<h2>Generated Image:</h2><img src="' + data + '" alt="Generated Image">');
+                        $('#generated-image2').html('<h2>Generated Image2:</h2><img src="' + data.imageUrl + '" alt="Generated Image2">');
+                    } else {
+                        alert(result.errorMessage);
+                    }
+                },
+                error: function () {
+                    alert('Failed to generate text.');
+                }
+            });
+
+        }
+
+        function generateImageAPIM() {
+            var prompt = $('#prompt').val();
+
+            $.ajax({
+                url: '@Url.Action("GenerateImageAPIM", "Home")',
+                type: 'POST',
+                data: { prompt: prompt },
+                success: function (result) {
+                    if (result.success) {
+                        //$('#GenerateImageText').val(result.generatedText);
+                        $('#generated-image').html('<h2>Generated Image:</h2><img src="' + data + '" alt="Generated Image">');
+                    } else {
+                        alert(result.errorMessage);
+                    }
+                },
+                error: function () {
+                    alert('Failed to generate text.');
+                }
+            });
+
+        }
+
     </script>
 }
