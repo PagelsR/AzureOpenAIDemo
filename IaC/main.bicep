@@ -116,11 +116,11 @@ module apimservicemod './main-apimanagement.bicep' = {
 //   }
 // }
 
-//param AzObjectIdPagels string = 'b6be0700-1fda-4f88-bf20-1aa508a91f73'
-param AzObjectIdPagels string = '197b8610-80f8-4317-b9c4-06e5b3246e87'
+// ObjectId of alias RPagels
+param AzObjectIdPagels string = '0aa95253-9e37-4af9-a63a-3b35ed78e98b'
 
-// Application Id of Service Principal "ServicePrincipal_FullSubscriptionAccess"
-param ADOServiceprincipalObjectId string = 'd589e43b-c408-431e-bb55-73232bab26a3'
+// ObjectId of Service Principal "5934e_ServicePrincipal_..."
+param ADOServiceprincipalObjectId string = '0b8747c1-d320-4d28-85d1-d3c05ae04300'
 
 // Create Configuration Entries
 module configsettingsmod './main-configsettings.bicep' = {
