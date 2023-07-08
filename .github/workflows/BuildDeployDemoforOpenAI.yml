@@ -12,7 +12,7 @@ env:
   Azure_Resource_GroupName: 'rg-AzureOpenAIDemos'
   Azure_Resource_GroupLocation: 'eastus'
   dotnet_buildConfiguration: 'Release'
-  AZURE_CREDENTIALS_MCAPS: ${{ secrets.AZURE_CREDENTIALS_MCAPS }}
+  AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
 
 jobs:
 
@@ -32,7 +32,7 @@ jobs:
     - name: Azure authentication
       uses: azure/login@v1
       with:
-        creds: ${{ env.AZURE_CREDENTIALS_MCAPS }}
+        creds: ${{ env.AZURE_CREDENTIALS }}
 
     - name: Set Subscription ID
       run: echo "SUBSCRIPTION_ID=$(az account show --query id -o tsv)" >> $GITHUB_ENV
@@ -197,7 +197,7 @@ jobs:
     - name: Azure authentication
       uses: azure/login@v1
       with:
-        creds: ${{ env.AZURE_CREDENTIALS_MCAPS }}
+        creds: ${{ env.AZURE_CREDENTIALS }}
 
     - name: DEBUG ONLY Display Output Variables
       run: |
