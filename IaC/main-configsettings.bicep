@@ -240,20 +240,21 @@ resource apiManagementNamedValuesOpenAIAPIKey 'Microsoft.ApiManagement/service/n
 }
 
 // Reference Existing resource for specific API
-resource existing_apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' existing = {
-  name: 'openai-team' //apiServiceName
-  parent: existing_apiManagement
-}
+//resource existing_apiManagementOpenAIAPIs 'Microsoft.ApiManagement/service/apis@2022-04-01-preview' existing = {
+//  name: 'openai-team' //apiServiceName
+//  parent: existing_apiManagement
+//}
 
+// Can't use with Consumption Model!!!
 // Create API Management API Policy for All APIs
-resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
-  parent: existing_apiManagementOpenAIAPIs
-  name: 'policy'
-  properties: {
-    format: 'rawxml'
-    value: loadTextContent('./policy_API.xml')
-  }
-  dependsOn: [
-    apiManagementNamedValuesOpenAIAPIKey
-  ]
-}
+//resource apiPolicy 'Microsoft.ApiManagement/service/apis/policies@2022-04-01-preview' = {
+//  parent: existing_apiManagementOpenAIAPIs
+//  name: 'policy'
+//  properties: {
+//    format: 'rawxml'
+//    value: loadTextContent('./policy_API.xml')
+//  }
+//  dependsOn: [
+//    apiManagementNamedValuesOpenAIAPIKey
+//  ]
+//}
