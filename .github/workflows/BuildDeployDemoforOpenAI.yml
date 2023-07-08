@@ -118,7 +118,7 @@ jobs:
          echo 'output_functionAppName: ${{ steps.Infra.outputs.out_functionAppName }}'
          echo 'output_apiServiceName: ${{ steps.Infra.outputs.out_apiServiceName }}'
          echo 'output_apimSubscriptionKey: ${{ steps.Infra.outputs.out_apimSubscriptionKey }}'
-         echo 'output_OpenAIKeyValue: ${{ steps.Infra.outputs.out_OpenAIKeyValue }}'
+         echo 'output_OpenAIKeyValue: ${{ secrets.OpenAI_APIKEY }}'
          echo 'output_appInsightsApplicationId: = ${{ steps.Infra.outputs.out_appInsightsApplicationId }}'
          echo 'output_appInsightsAPIApplicationId: = ${{ steps.Infra.outputs.out_appInsightsAPIApplicationId }}'
 
