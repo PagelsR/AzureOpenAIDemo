@@ -221,7 +221,7 @@ jobs:
           az group lock delete --name DontDeleteMe --resource-group ${{ env.Azure_Resource_GroupName }}
 
     - name: Download Build Artifacts-Website Application
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       continue-on-error: false
       with:
         name: AzureOpenAIDemo.Web
@@ -234,7 +234,7 @@ jobs:
           package: './AzureOpenAIDemo.Web'
 
     # - name: Download Build Artifacts-Function Application
-    #   uses: actions/download-artifact@v2
+    #   uses: actions/download-artifact@v4.1.7
     #   continue-on-error: false
     #   with:
     #     name: MercuryHealth.FunctionApp
